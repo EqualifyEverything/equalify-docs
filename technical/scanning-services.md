@@ -2,6 +2,29 @@
 
 Equalify's accessibility scanning is performed by a collection of microservices that work together to scan HTML pages and PDF documents at scale.
 
+## How Equalify Scans: URL-Based vs Crawling
+
+Many accessibility tools (such as SiteImprove, Pope Tech, or Monsido) use a **crawling** approach: you provide a root domain, and the tool automatically discovers pages by following links, parsing sitemaps, and spidering the site. While convenient, crawling has notable drawbacks:
+
+- **Unpredictable scope**: Crawlers may miss pages behind JavaScript navigation or follow links to external sites, leading to incomplete or noisy results.
+- **Slow discovery**: A full crawl of a large site can take hours before scanning even begins.
+- **No PDF coverage**: Most crawlers focus on HTML pages and ignore linked PDF documents.
+- **Redundant scans**: Crawlers often re-scan unchanged pages, wasting resources.
+
+Equalify takes a **URL-based** approach instead. Users provide an explicit list of URLs — either entered manually or uploaded via CSV — and Equalify scans exactly those pages. This design offers several advantages:
+
+| | Crawling Tools | Equalify (URL-Based) |
+|---|---|---|
+| **Scope** | Automatic discovery; may miss or over-include pages | Explicit — you choose exactly what's scanned |
+| **PDF support** | Typically limited or absent | First-class PDF scanning via veraPDF |
+| **Speed** | Crawl + scan (slow for large sites) | Scan only (no discovery overhead) |
+| **Repeatability** | Results vary based on crawl path | Deterministic — same URLs every time |
+| **Gated content** | Requires authenticated crawling setup | Scan any publicly accessible URL directly |
+
+This means Equalify does not automatically discover pages on your site. If you add a new page, you need to add its URL to your audit. The trade-off is full control over what gets scanned and consistent, reproducible results across scan runs.
+
+> **Tip**: For large sites, use the CSV upload feature to bulk-add URLs. You can export a URL list from your CMS, sitemap.xml, or analytics tool and import it directly into an Equalify audit.
+
 ## Overview
 
 The scanning architecture uses AWS SQS FIFO queues to distribute work across scanner Lambdas, ensuring reliable delivery and ordered processing per audit.

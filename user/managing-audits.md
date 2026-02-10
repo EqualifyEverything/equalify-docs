@@ -13,6 +13,9 @@ Audits are at the core of Equalify. This guide covers how to create, configure, 
     - Monthly
 
 ## Adding URLs
+
+Unlike many accessibility tools that crawl your site automatically, Equalify uses a **URL-based approach** — you provide the specific pages and documents you want scanned. This gives you full control over what's included in each audit and ensures consistent, reproducible results every scan.
+
 You can add URLs to your audit in two ways:
 
 ### 1. Manual Entry
@@ -28,6 +31,8 @@ For scanning many documents at once, use the CSV upload feature.
     - `Type`: Either `PDF` or `HTML`.
 3.  Upload the completed CSV.
 4.  The system will categorize the items automatically.
+
+> **Tip**: You can get a list of all pages on your site from your CMS, your sitemap.xml file, or a tool like Google Analytics, and then import them into Equalify via CSV.
 
 **Important**: Equalify can only scan content that is **publicly accessible**. It cannot scan pages behind authentication layers.
 
