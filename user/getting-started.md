@@ -1,4 +1,4 @@
-# Getting Started with Equalify!
+# Getting Started with Equalify
 
 ## Logging In
 Equalify starts with a login screen. You must log in using an SSO (Single Sign-On) provider.
