@@ -1,48 +1,47 @@
 # User Roles and Permissions
 
-Equalify uses a role-based system to manage what users can do within the platform. This guide explains the available roles and how team membership works.
+Equalify uses a role-based system to manage what users can do within the platform. This guide explains the available roles and how access works.
 
 ## Roles
 
 ### Admin
-The **Admin** role is automatically assigned to the first user who logs in to a new Equalify instance. Admins have full access to all platform features, including team management.
+The **Admin** role is automatically assigned to the first user who logs in to a new Equalify instance. Admins have full access to all platform features, including user management.
 
 Admin capabilities:
 - Create, edit, and delete audits
 - View all scan results and blockers
-- Invite new users to the team
-- Manage team membership
+- Invite new users to the instance
+- Manage users
 - Access activity logs
 - Configure audit schedules and notifications
 
 ### User
-The **User** role is the default role for all invited users. Users have access to the core scanning and reporting features within their team.
+The **User** role is the default role for all invited users. Users have access to the core scanning and reporting features.
 
 User capabilities:
 - Create, edit, and delete their own audits
-- View scan results and blockers for audits shared with their team
-- Invite new users to the team
+- View scan results and blockers for audits shared within the instance
+- Invite new users to the instance
 - Access activity logs
 - Configure audit schedules and notifications
 
-## Teams
+## Shared Access Within Your Instance
 
-Every user in Equalify belongs to a **team**. Teams are the primary way that audit access is shared — all members of a team can view audits created by other team members.
+All users on an Equalify instance share access to each other's audits. There is no separate "teams" feature — your Equalify instance is your shared workspace.
 
-- When the first user (Admin) creates an account, a team is automatically created.
-- Invited users are added to the inviting user's team.
-- Audits are visible to all members of the same team.
+- Audits created by any user are visible to all other users on the same instance.
+- Invited users are automatically added to your instance when they log in.
 
 ## Inviting Users
 
-Any authenticated user can invite new members to join the platform:
+Any authenticated user can invite new members to join the instance:
 
 1. Navigate to **Account** from the main menu.
 2. Enter the email address of the person you want to invite.
 3. Click **Invite**.
 4. The invited user will receive an email with a link to log in.
 
-Once the invited user logs in (via SSO or other authentication), they are automatically added to your team.
+Once the invited user logs in (via SSO or other authentication), they are automatically added to your instance.
 
 > **Note**: If your Equalify instance uses SSO, invited users must have an email address from an authorized domain (e.g., `@uic.edu`).
 
@@ -51,7 +50,7 @@ Once the invited user logs in (via SSO or other authentication), they are automa
 Equalify enforces data isolation so that users only see what they should:
 
 - **Your audits**: You can always see audits you created.
-- **Team audits**: You can see audits created by anyone on your team.
-- **Activity logs**: Logs reflect actions taken across your team's audits.
+- **Instance audits**: You can see audits created by anyone on your instance.
+- **Activity logs**: Logs reflect actions taken across your instance's audits.
 
-This means you will not see audits or data from users outside your team.
+You will not see audits or data from other Equalify instances.
