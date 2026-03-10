@@ -17,7 +17,7 @@ We're looking for institutional partners who want early access and a voice in wh
 
 You don't need to be an engineer to contribute. We need accessibility experts who can evaluate outputs, institutions willing to test the pipeline on real document collections, and practitioners who understand day-to-day remediation to help prioritize what matters most.
 
-[Sign up for partner access](#/partner) or contact [Blake Bertuccelli-Booth](https://it.uic.edu/profiles/blake-bertuccelli-booth/) (b3b@uic.edu) directly.
+[Sign up for partner access](https://equalify.uic.edu/signup/reflow) or contact [Blake Bertuccelli-Booth](https://it.uic.edu/profiles/blake-bertuccelli-booth/) (b3b@uic.edu) directly.
 
 ## For WordPress Users
 
@@ -29,13 +29,4 @@ Setup instructions will be available when the plugin is released publicly.
 
 The source code is not yet publicly available. We are currently in Phase 1 (UIC pilot) and plan to open-source the full project under the AGPL license during Phase 3.
 
-To stay informed about the public release, [sign up as a partner](#/partner).
-
-## Project Components
-
-| Component | Description |
-|---|---|
-| equalify-pdf-converter | Main backend — FastAPI pipeline that converts PDFs to semantic markdown |
-| equalify-reflow-wp | WordPress plugin — serves converted documents with built-in viewer |
-| equalify-reflow-feedback | Feedback service — collects user edits and issue reports with PDF archival |
-| equalify-reflow-docs | This documentation site |
+To stay informed about the public release, [sign up as a partner](https://equalify.uic.edu/signup/reflow).
