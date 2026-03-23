@@ -49,7 +49,7 @@ This stage also produces a structural map of the document: an outline of heading
 
 Headings come first because a valid heading hierarchy is the backbone of document accessibility. Get that right and everything else has a skeleton to hang on.
 
-The agent infers heading levels from visual signals — font size, weight, position, spacing — and reconciles them into a consistent hierarchy across the entire document. A heading that looks like an H2 on page 3 should be an H2 on page 7 too.
+The agent infers heading levels from visual signals — font size, weight, position, spacing — and reconciles them into a consistent hierarchy across the entire document.
 
 ### Stage 4: Page Content Correction
 
@@ -62,7 +62,6 @@ Some tool calls spawn **specialist sub-agents** for tasks that need focused expe
 - **Alt Text Agent** — image description, chart summarization, decorative vs. informational labeling
 - **Table Agent** — cell relationships, header associations, complex table structures
 - **List Agent** — nested list reconstruction, continuation across visual breaks
-- **Text Structure Agent** — paragraph consolidation, callout detection, formatting cleanup
 
 ### Stage 5: Code Block Detection
 
@@ -91,8 +90,7 @@ Every edit made by the pipeline is recorded with:
 
 - **What changed** — the before and after text
 - **Why** — the model's reasoning for the edit
-- **Where** — the page and section
-- **Confidence** — how certain the model is about the change
+- **Where** — the page and target element
 
 This ledger is available for human review, creating a transparent audit trail. In `human` review mode, an administrator can inspect every change before the document is finalized.
 

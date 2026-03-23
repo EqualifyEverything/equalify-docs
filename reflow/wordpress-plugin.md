@@ -11,12 +11,7 @@ The Equalify Reflow for WordPress plugin lets administrators process PDF attachm
 
 ## Installation
 
-1. Download or clone the plugin into your WordPress plugins directory:
-
-```bash
-cd wp-content/plugins/
-git clone https://github.com/EqualifyEverything/equalify-reflow-wp.git
-```
+1. Download the latest release from [GitHub Releases](https://github.com/EqualifyEverything/equalify-reflow-wp/releases) and extract it into your WordPress plugins directory (`wp-content/plugins/`).
 
 2. Activate the plugin from **Plugins > Installed Plugins** (or **Network Activate** for multisite).
 

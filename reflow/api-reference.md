@@ -40,7 +40,6 @@ Upload a PDF for processing. The document is scanned for PII, then queued for th
 | `skip_reason` | string | — | Justification for skipping PII scan (recorded in audit trail) |
 | `review_mode` | string | `"auto"` | `"auto"` completes immediately; `"human"` holds for ledger review |
 | `generate_debug_bundle` | boolean | `false` | Save all agent prompts and responses for debugging |
-| `max_rounds` | integer | `1` | Iterative refinement rounds (1–5) |
 
 **Response** (`201 Created`):
 
@@ -49,7 +48,7 @@ Upload a PDF for processing. The document is scanned for PII, then queued for th
   "job_id": "abc123-def456",
   "status": "pii_scanning",
   "message": "Document submitted successfully",
-  "estimated_completion_minutes": 3
+  "estimated_completion_minutes": 5
 }
 ```
 
@@ -105,11 +104,10 @@ Returns the current state of a processing job. The response shape changes based 
       "figure_id": "figure_1_1",
       "url": "https://s3.../figure_1_1.png",
       "page": 1,
-      "alt_text": "Bar chart showing enrollment by department",
+      "alt_text": "",
       "caption": "Figure 1: Fall 2025 Enrollment"
     }
   ],
-  "confidence_score": 0.92,
   "llm_cost": {
     "input_tokens": 45000,
     "output_tokens": 12000,
@@ -168,9 +166,7 @@ Returns the complete change ledger — every edit the pipeline made, grouped by 
           "target": "heading",
           "before": "## BIOS 343",
           "after": "# BIOS 343: Animal Physiology",
-          "reasoning": "Promoted to H1 — this is the document title based on font size and position",
-          "confidence": 0.95,
-          "needs_review": false
+          "reasoning": "Promoted to H1 — this is the document title based on font size and position"
         }
       ]
     }
@@ -362,24 +358,15 @@ GET /api/v1/pipeline/sessions/{session_id}/stream?last_event_id={id}
 
 If disconnected, reconnect to a running session and replay all events after the given ID. The pipeline continues running whether or not a client is connected.
 
-### Feedback and Review
+### Feedback and Review (Experimental)
 
-The pipeline viewer supports multi-round feedback sessions for iterative refinement:
-
-```
-POST /api/v1/pipeline/sessions/{session_id}/feedback
-```
-
-Submit edits or comments anchored to specific text spans. The system generates candidate changes that can be individually accepted or rejected:
+The pipeline viewer has endpoints for multi-round feedback sessions. These are functional but currently disabled in the viewer UI. User-facing feedback is handled by the external [Equalify Reflow Feedback Service](https://github.com/EqualifyEverything/equalify-reflow-feedback) instead.
 
 ```
-POST /api/v1/pipeline/sessions/{session_id}/review
-```
-
-When satisfied, finalize the session:
-
-```
-POST /api/v1/pipeline/sessions/{session_id}/approve
+POST /api/v1/pipeline/sessions/{session_id}/feedback   # Submit edits/comments
+POST /api/v1/pipeline/sessions/{session_id}/review     # Accept/reject changes
+POST /api/v1/pipeline/sessions/{session_id}/approve    # Finalize session
+GET  /api/v1/pipeline/sessions/{session_id}/state      # Get session state
 ```
 
 ## Health Checks
