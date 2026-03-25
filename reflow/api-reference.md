@@ -87,7 +87,6 @@ Returns the current state of a processing job. The response shape changes based 
 | `awaiting_approval` | PII detected — waiting for human review |
 | `processing` | Document is being converted |
 | `completed` | Processing finished successfully |
-| `needs_review` | Low-confidence results require human review |
 | `failed` | Processing encountered an error |
 | `denied` | PII review was denied |
 
@@ -154,7 +153,7 @@ Returns the complete change ledger — every edit the pipeline made, grouped by 
   "document_title": "BIOS 343 Syllabus",
   "total_pages": 13,
   "pages_with_changes": 11,
-  "total_edits": 69,
+  "total_edits": 68,
   "pages": [
     {
       "page": 1,
@@ -316,9 +315,9 @@ POST /api/v1/approval/{token}/decision
 
 If approved, the document is queued for processing. If denied, the job moves to `denied` status.
 
-## Pipeline Viewer (Development)
+## Pipeline Viewer
 
-These endpoints power the built-in pipeline viewer at `/viewer`. They're useful for development and debugging but are not part of the standard document processing flow.
+These endpoints power the built-in pipeline viewer at `/viewer` — a visualizer for the Equalify Reflow AI pipeline. The viewer displays real-time progress, versioned markdown diffs, and the change ledger as a document moves through each stage. It is not intended for bulk document processing.
 
 ### Process with Streaming
 
@@ -357,17 +356,6 @@ GET /api/v1/pipeline/sessions/{session_id}/stream?last_event_id={id}
 ```
 
 If disconnected, reconnect to a running session and replay all events after the given ID. The pipeline continues running whether or not a client is connected.
-
-### Feedback and Review (Experimental)
-
-The pipeline viewer has endpoints for multi-round feedback sessions. These are functional but currently disabled in the viewer UI. User-facing feedback is handled by the external [Equalify Reflow Feedback Service](https://github.com/EqualifyEverything/equalify-reflow-feedback) instead.
-
-```
-POST /api/v1/pipeline/sessions/{session_id}/feedback   # Submit edits/comments
-POST /api/v1/pipeline/sessions/{session_id}/review     # Accept/reject changes
-POST /api/v1/pipeline/sessions/{session_id}/approve    # Finalize session
-GET  /api/v1/pipeline/sessions/{session_id}/state      # Get session state
-```
 
 ## Health Checks
 

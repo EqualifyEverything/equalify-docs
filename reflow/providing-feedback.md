@@ -2,22 +2,22 @@
 title: Providing Feedback
 date: 2026-03-23
 author: Equalify Tech Team
-description: How to report issues and suggest corrections in converted documents.
+description: How to report issues and suggest corrections for converted documents.
 ---
 
 # Providing Feedback
 
-When you encounter an issue in a converted document, you can report it directly from the viewer. Feedback helps us identify the most impactful problems and prioritize pipeline improvements.
+When you encounter an issue in a converted document, feedback helps us identify the most impactful problems and prioritize pipeline improvements.
 
-## Reporting an Issue
+## How to Report
 
-In the document viewer, click the **Feedback** button to open the feedback panel. You can submit two types of feedback:
+Feedback is collected through the [Equalify Reflow for WordPress](wordpress-plugin.md) plugin. When feedback is enabled in the plugin settings, the document viewer includes a feedback interface where users can submit two types of reports:
 
 ### Issue Reports
 
 Describe a problem you've found. Each report includes:
 
-- **Description** — what's wrong (minimum 10 characters)
+- **Description** — what's wrong
 - **Category** — select the best fit:
   - **Content** — incorrect text, missing content, OCR errors
   - **Formatting** — layout issues, broken tables, misplaced images
@@ -28,18 +28,11 @@ Describe a problem you've found. Each report includes:
 
 ### Text Corrections
 
-If you find incorrect text, you can propose a specific fix:
-
-1. Select the incorrect text in the viewer
-2. Click **Suggest Correction**
-3. Enter the corrected text
-4. Add a brief explanation of what was wrong
-
-The system records both the original and corrected text, along with the page and section context.
+If you find incorrect text, you can propose a specific fix by providing the original text and your corrected version along with a brief explanation.
 
 ## Where Feedback Goes
 
-Feedback is sent to the [Equalify Reflow Feedback Service](https://github.com/EqualifyEverything/equalify-reflow-feedback), a centralized service that collects reports from all connected viewers — both the WordPress plugin and the standalone viewer.
+Feedback is sent to the [Equalify Reflow Feedback Service](https://github.com/EqualifyEverything/equalify-reflow-feedback), a centralized service that collects reports from all connected WordPress sites.
 
 The feedback service provides:
 
@@ -55,7 +48,3 @@ Feedback directly informs pipeline development:
 - **Text corrections** provide concrete before/after examples that can be used as test cases for regression testing
 - **Document-specific reports** identify which document types are most challenging, guiding the selection of pilot documents for testing
 - **Volume trends** show whether pipeline updates are reducing the rate of issues over time
-
-## Rate Limits
-
-To prevent abuse, feedback submissions are rate-limited to 5 per IP address per hour. A honeypot field is included to filter automated spam.

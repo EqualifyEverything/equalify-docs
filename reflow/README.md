@@ -3,8 +3,8 @@
 ## Guides
 
 - [Getting Started](getting-started.md) — partners, WordPress users, and developers
-- [How It Works](how-it-works.md) — the seven-stage conversion pipeline
-- [Understanding the Output](understanding-the-output.md) — evaluating quality, benchmarks, limitations
+- [How It Works](how-it-works.md) — the five-stage conversion pipeline
+- [Understanding the Output](understanding-the-output.md) — evaluating quality and limitations
 - [WordPress Plugin](wordpress-plugin.md) — installation, usage, and troubleshooting
 - [Providing Feedback](providing-feedback.md) — reporting issues and suggesting corrections
 

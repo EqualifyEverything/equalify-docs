@@ -73,14 +73,13 @@ src/
 ├── dependencies.py            # Dependency injection (S3, Redis, services)
 ├── api/                       # REST endpoints
 │   ├── documents.py           # Document submission and status
-│   ├── pipeline_viewer.py     # Pipeline viewer (dev tool)
-│   ├── pipeline_feedback.py   # Feedback and review sessions
+│   ├── pipeline_viewer.py     # Pipeline viewer
 │   └── approval.py            # PII approval workflow
 ├── workers/                   # Background task processors
 │   ├── pii_worker.py          # PII detection queue consumer
 │   └── timeout_worker.py      # Approval timeout checks
 ├── services/                  # Business logic
-│   ├── pipeline_viewer.py     # 7-stage pipeline orchestration
+│   ├── pipeline_viewer.py     # 5-stage pipeline orchestration
 │   ├── document_processing.py # Job lifecycle management
 │   ├── storage.py             # S3 with circuit breakers
 │   ├── queue.py               # Redis queue operations

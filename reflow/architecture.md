@@ -52,12 +52,12 @@ Equalify Reflow is composed of three services that work together: a conversion e
 
 ### Conversion Engine (equalify-reflow)
 
-The core service. A FastAPI application that accepts PDF uploads, runs the seven-stage pipeline, and returns accessible markdown.
+The core service. A FastAPI application that accepts PDF uploads, runs the five-stage pipeline, and returns accessible markdown.
 
 **Key responsibilities:**
 - REST API for document submission, status tracking, and SSE streaming
 - PII scanning via Microsoft Presidio before any AI processing
-- Seven-stage conversion pipeline with AI agents (Claude via AWS Bedrock)
+- Five-stage conversion pipeline with AI agents (Claude via AWS Bedrock)
 - Change ledger recording every edit with reasoning
 - Job state management and event streaming via Redis
 - Document storage and retrieval via S3
@@ -81,14 +81,14 @@ A separate FastAPI + SQLite service that collects issue reports and text correct
 2. PII scan (Microsoft Presidio)
    ├─ Pass → queue for processing
    └─ Fail → hold for human approval
-3. Pipeline processing (7 stages)
+3. Pipeline processing (5 stages)
    └─ Each stage: AI agent processes → edits recorded in change ledger
 4. Results stored in S3 results bucket
 5. Job marked completed → SSE event emitted
 6. Client downloads markdown + figures via pre-signed S3 URLs
 ```
 
-*Data flow diagram showing the six steps of document processing: PDF upload to S3, PII scanning with pass/fail branching, seven-stage pipeline processing with change ledger recording, results storage in S3, job completion notification via SSE, and client download of markdown and figures via pre-signed URLs.*
+*Data flow diagram showing the six steps of document processing: PDF upload to S3, PII scanning with pass/fail branching, five-stage pipeline processing with change ledger recording, results storage in S3, job completion notification via SSE, and client download of markdown and figures via pre-signed URLs.*
 
 ### SSE Streaming Architecture
 
@@ -135,14 +135,9 @@ The pipeline uses [PydanticAI](https://ai.pydantic.dev/) to define agents with t
 
 Tool registration is **conditional** — vision tools are only provided when the task involves images, reducing prompt token waste for text-only work.
 
-### Model Tiers
+### Model
 
-The pipeline uses different model tiers for different tasks:
-
-- **High-capability** (Claude Sonnet) — structure analysis, page content correction, cross-page assembly
-- **Efficient** (Claude Haiku) — heading reconciliation, code detection, cleanup
-
-Model selection is managed centrally in `src/agents/model_tiers.py`.
+The pipeline uses **Claude Haiku** (via AWS Bedrock) for all AI processing steps. Model configuration is managed centrally in `src/agents/model_tiers.py`.
 
 ## Infrastructure
 

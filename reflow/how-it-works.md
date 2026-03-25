@@ -2,7 +2,7 @@
 title: How Equalify Reflow Works
 date: 2026-03-23
 author: Equalify Tech Team
-description: The seven-stage pipeline that converts PDFs into accessible, semantic markdown.
+description: The five-stage pipeline that converts PDFs into accessible, semantic markdown.
 ---
 
 # How Equalify Reflow Works
@@ -25,60 +25,47 @@ That format is **Markdown**:
 - **Human-readable without rendering** — open it in any text editor and understand the structure
 - **Semantically rich** — headings, lists, tables, links all have explicit structural meaning
 - **Maps directly to HTML** — renders losslessly into accessible HTML with proper heading hierarchy, table headers, alt text, and landmark regions
-- **Lingua franca** — readable by humans, AI models, and computer programs alike
+- **Lingua franca** — readable by humans, AI models, and computer programs alike. LLMs already output markdown by default because it's efficient, structured, and carries meaning
 
 ## The Pipeline
 
-Equalify Reflow converts PDFs through a seven-stage pipeline. Each stage builds on the previous one, producing versioned markdown snapshots so you can see exactly what changed at each step.
+Equalify Reflow converts PDFs through a five-stage pipeline:
 
-### Stage 1: Initial Extraction
+### Stage 1: Extraction
 
 [IBM Docling](https://github.com/docling-project/docling) handles the first pass. It uses smaller, efficient models and whatever structural data already exists inside the PDF to produce a first-pass markdown version. This handles mechanical parsing — text blocks, tables, images, reading order — without burning expensive LLM calls on mechanical work. Gets you roughly 70% of the way there.
 
 If the document is scanned (image-only), Docling applies OCR to extract the text before proceeding.
 
-### Stage 2: Structure Analysis
+### Stage 2: Analysis
 
-Before the AI processes a page, the system needs to understand what it's looking at. This stage analyzes the PDF's visual presentation alongside the semantic data from Docling to classify the document — is this a poster, an academic paper, a syllabus, a flyer?
+Before the AI processes a page, we need to understand what we're looking at. This stage analyzes the PDF's visual presentation alongside the semantic data pulled from Docling to classify the document type — is this a poster, an academic paper, a syllabus, a flyer?
 
-The document type matters because it **dynamically adjusts the prompt** given to the model at every subsequent stage. A two-column academic paper needs different handling than a single-page event poster.
+The document type matters because it **dynamically adjusts the prompt** given to the model. A two-column academic paper needs different handling than a single-page event poster.
 
 This stage also produces a structural map of the document: an outline of headings and sections, page-level attributes (layout type, content flags like images, tables, equations), footnote locations, and any elements that need special attention. All of this context is carried forward through the pipeline as a **dossier** that informs every downstream decision.
 
-### Stage 3: Heading Reconciliation
+### Stage 3: Headings
 
-Headings come first because a valid heading hierarchy is the backbone of document accessibility. Get that right and everything else has a skeleton to hang on.
+Headings come first because a valid heading hierarchy is the backbone of document accessibility. Get that right and everything else has a skeleton to hang on. The agent infers heading levels from visual signals: font size, weight, position, spacing — and reconciles them into a consistent hierarchy across the entire document.
 
-The agent infers heading levels from visual signals — font size, weight, position, spacing — and reconciles them into a consistent hierarchy across the entire document.
-
-### Stage 4: Page Content Correction
+### Stage 4: Translation
 
 This is where the core translation happens. Each page is given to a multimodal LLM as both an **image** and its **current markdown interpretation**. The model's job is to edit the markdown to make it match what the visual page communicates.
 
-The model works through **tool calls** — each edit includes a reasoning explanation, giving insight into how the model is interpreting the document. This reasoning trail is recorded in a **change ledger** for auditability.
+The model works through **tool calls** — each edit includes a reasoning explanation, giving us insight into how the model is interpreting the document. This reasoning trail is recorded in a **change ledger** for auditability.
 
-Some tool calls spawn **specialist sub-agents** for tasks that need focused expertise:
+Some of those tool calls spawn **specialist sub-agents** for tasks that need focused expertise:
 
-- **Alt Text Agent** — image description, chart summarization, decorative vs. informational labeling
+- **Alt Text Agent** — image description, chart summarization, decorative vs. meaningful labeling
 - **Table Agent** — cell relationships, header associations, complex table structures
 - **List Agent** — nested list reconstruction, continuation across visual breaks
 
-### Stage 5: Code Block Detection
+### Stage 5: Assembly
 
-If the document contains code snippets, this stage identifies them and wraps them in proper fenced code blocks with language annotations. Academic papers, technical documentation, and course materials frequently contain inline code that needs to be distinguished from prose.
+The final pass brings all the individual markdown pages together into a single document and removes page boundaries — pages are a print metaphor, and on screens they're an obstacle. An AI examines the boundaries between pages and fixes artifacts from the paged presentation: words split across pages, tables or lists that were broken by a page break, footnotes relocated to their logical position, and other seams left over from the original layout.
 
-### Stage 6: Cross-Page Assembly
-
-This stage brings all the individual pages together and removes page boundaries — pages are a print metaphor, and on screens they're an obstacle. The agent examines the seams between pages and fixes:
-
-- Sentences split mid-word across a page break
-- Tables or lists interrupted by a page boundary
-- Footnotes relocated to their logical position
-- Paragraphs that continue from one page to the next
-
-### Stage 7: Final Cleanup
-
-Whitespace normalization, consistent formatting, and any remaining artifacts from the extraction process are cleaned up. The result is a single, reflowable document that adapts to any viewport, any device, any rendering context — accessible by construction.
+The result is a reflowable, responsive document that adapts to any viewport, any device, any rendering context — accessible by construction.
 
 ## PII Protection
 
@@ -105,3 +92,9 @@ This ledger is available for human review, creating a transparent audit trail. I
 - **[S3](https://aws.amazon.com/s3/)** — document storage with circuit breakers
 - **[Docker](https://www.docker.com/)** — containerized development and deployment
 - **[Terraform](https://www.terraform.io/)** — AWS infrastructure as code
+
+## Learn More
+
+The source code is not yet publicly available. We are currently in the UIC pilot phase and plan to open-source the full project under the AGPL license.
+
+To learn more or request early access, visit the [Getting Started](getting-started.md) guide or [sign up as a partner](https://equalify.uic.edu/signup/reflow).

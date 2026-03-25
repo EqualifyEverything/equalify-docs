@@ -88,18 +88,6 @@ Some document types convert better than others:
 | Infographics and posters | Lower | Spatial relationships lost when linearized |
 | Brochures with complex layouts | Lower | Multi-column reading order confusion |
 
-### Performance Benchmarks
-
-From the 30-document pilot (174 total pages):
-
-| Metric | Value |
-|--------|-------|
-| Average cost per document | $0.45 |
-| Average cost per page | $0.08 |
-| Average processing time | ~2 min 44 sec |
-| Fastest (1-page document) | 15 seconds |
-| Slowest (11-page scanned chapter) | 8 min 13 sec |
-
 ## Known Limitations
 
 The system is designed for **course materials** — syllabi, academic papers, policy documents, presentations, and similar content. The following document types are outside the current scope and may produce lower-quality results:
@@ -114,9 +102,4 @@ When the pipeline detects a document type it handles poorly, it emits **warnings
 
 ## Providing Feedback
 
-If you find an issue in a converted document, the viewer includes a feedback interface:
-
-1. **Report an issue** — describe the problem and categorize it (content, formatting, accessibility, structure)
-2. **Suggest a correction** — select the incorrect text and propose a replacement
-
-Feedback is collected by the [Equalify Reflow Feedback Service](https://github.com/EqualifyEverything/equalify-reflow-feedback) and used to identify patterns that guide pipeline improvements. The most common feedback categories directly inform which pipeline stages get refined next.
+If you find an issue in a converted document, see the [Providing Feedback](providing-feedback.md) guide for how to report issues and suggest corrections through the WordPress plugin.
