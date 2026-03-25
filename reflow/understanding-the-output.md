@@ -30,7 +30,7 @@ Images, charts, diagrams, and photos are extracted from the PDF and saved as sep
 - The page number where it appeared
 - The original caption, if one existed in the PDF
 
-Alt text generation for extracted figures is planned but not yet implemented — the `alt_text` field exists in the API response but is currently empty. Alt text generated during page content correction (Stage 4) applies to figures referenced inline in the markdown, not to the extracted image files themselves.
+During the Translation stage, a specialist sub-agent generates alt text for each figure and embeds it directly in the markdown (e.g., `![Description of chart](figures/figure-1.png)`). Decorative images like logos are identified and left with empty alt text, following WCAG best practices.
 
 ### The Change Ledger
 
