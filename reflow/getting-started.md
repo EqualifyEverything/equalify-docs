@@ -27,6 +27,6 @@ Setup instructions will be available when the plugin is released publicly.
 
 ## For Developers
 
-The source code is not yet publicly available. We are currently in Phase 1 (UIC pilot) and plan to open-source the full project under the AGPL license during Phase 3.
+The source code is available on GitHub at [EqualifyEverything/equalify-reflow](https://github.com/EqualifyEverything/equalify-reflow) under the AGPL-3.0-or-later licence. The README has setup instructions for running the stack locally with Docker; contributions are welcome.
 
-To stay informed about the public release, [sign up as a partner](https://equalify.uic.edu/signup/reflow).
+To follow releases and roadmap discussions, [sign up as a partner](https://equalify.uic.edu/signup/reflow).

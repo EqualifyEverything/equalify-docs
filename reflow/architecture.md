@@ -151,7 +151,7 @@ make dev  # Starts everything via Docker Compose
 |---------|------|---------|
 | API Gateway | 8080 | FastAPI application |
 | Redis | 6379 | Job state, queues, pub/sub |
-| LocalStack | 4566 | S3 emulation |
+| Floci | 4566 | S3 emulation (lightweight alternative to LocalStack) |
 | Docling Serve | 5001 | PDF extraction sidecar |
 | Prometheus | 9090 | Metrics collection |
 | Grafana | 3001 | Monitoring dashboards |

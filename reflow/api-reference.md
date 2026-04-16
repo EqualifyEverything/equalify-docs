@@ -9,7 +9,7 @@ description: Complete reference for the Equalify Reflow REST API — document su
 
 The Equalify Reflow API accepts PDF documents, processes them through the conversion pipeline, and returns accessible markdown with extracted images. All endpoints are prefixed with `/api/v1/`.
 
-Interactive documentation is available at `/docs` on any running instance (requires HTTP Basic auth in production).
+Interactive documentation is available at `/docs` on any running instance. The `/docs` and `/redoc` pages and the `/openapi.json` schema are publicly accessible — no API key required.
 
 ## Authentication
 
@@ -317,7 +317,7 @@ If approved, the document is queued for processing. If denied, the job moves to 
 
 ## Pipeline Viewer
 
-These endpoints power the built-in pipeline viewer at `/viewer` — a visualizer for the Equalify Reflow AI pipeline. The viewer displays real-time progress, versioned markdown diffs, and the change ledger as a document moves through each stage. It is not intended for bulk document processing.
+These endpoints power the built-in pipeline viewer served at the root path `/` — a visualizer for the Equalify Reflow AI pipeline. The viewer displays real-time progress, versioned markdown diffs, and the change ledger as a document moves through each stage. It is not intended for bulk document processing.
 
 ### Process with Streaming
 

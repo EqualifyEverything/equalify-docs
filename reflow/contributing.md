@@ -35,7 +35,7 @@ This starts:
 |---------|------|-------------|
 | API Gateway | `localhost:8080` | FastAPI app with hot reload |
 | Redis | `localhost:6379` | Job state, queues, pub/sub |
-| LocalStack | `localhost:4566` | S3 emulation |
+| Floci | `localhost:4566` | S3 emulation (lightweight alternative to LocalStack) |
 | Docling Serve | `localhost:5001` | PDF extraction sidecar |
 | Prometheus | `localhost:9090` | Metrics |
 | Grafana | `localhost:3001` | Dashboards |
@@ -128,7 +128,7 @@ Key patterns:
 
 ### Integration Tests (`make test-integration`)
 
-Tests that exercise real service interactions (Redis, S3 via LocalStack) but still mock LLM calls. Run before PRs.
+Tests that exercise real service interactions (Redis, S3 via Floci) but still mock LLM calls. Run before PRs.
 
 ```bash
 make test-integration
@@ -159,7 +159,7 @@ Tests are tagged with pytest markers:
 2. **Start services** with `make dev`
 3. **Edit code** in `src/` — changes auto-reload in the container
 4. **Run unit tests** with `make test-fast` for quick feedback
-5. **Test manually** via the viewer at `http://localhost:8080/viewer` or the API at `http://localhost:8080/docs`
+5. **Test manually** via the pipeline viewer at `http://localhost:8080/` or the API docs at `http://localhost:8080/docs`
 6. **Run integration tests** with `make test-integration` before opening a PR
 7. **Open a pull request** against `main`
 
