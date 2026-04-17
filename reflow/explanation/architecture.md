@@ -1,13 +1,13 @@
 ---
 title: Architecture
-date: 2026-03-23
+date: 2026-04-17
 author: Equalify Tech Team
-description: System architecture, components, data flow, and deployment topology of Equalify Reflow.
+description: A system overview of Equalify Reflow — what it's made of, how data moves through it, and how it's deployed.
 ---
 
 # Architecture
 
-Equalify Reflow is composed of three services that work together: a conversion engine, a WordPress plugin, and a feedback service. This page covers the conversion engine architecture in detail.
+Equalify Reflow is three services working together: a conversion engine, a WordPress plugin, and a feedback service. This page is a system overview for people evaluating or integrating Reflow. For implementation detail — service classes, middleware order, Lua scripts, circuit-breaker thresholds — see [`docs/explanation/architecture.md` in the contributor repo](https://github.com/EqualifyEverything/equalify-reflow/blob/main/docs/explanation/architecture.md).
 
 ## System Components
 
@@ -22,155 +22,102 @@ Equalify Reflow is composed of three services that work together: a conversion e
               ▼              ▼              ▼
 ┌──────────────────────────────────────────────────┐
 │              Equalify Reflow API                  │
-│              (FastAPI + Uvicorn)                   │
-│                                                    │
-│  ┌──────────┐  ┌──────────┐  ┌──────────────────┐│
-│  │ Document  │  │ Pipeline │  │ Approval         ││
-│  │ Endpoints │  │ Viewer   │  │ Endpoints        ││
-│  └─────┬────┘  └─────┬────┘  └────────┬─────────┘│
-│        │             │                │           │
-│  ┌─────┴─────────────┴────────────────┴─────────┐│
-│  │           Service Layer                       ││
-│  │  ┌────────────┐  ┌──────────┐  ┌───────────┐ ││
-│  │  │ Processing │  │ Storage  │  │ Queue     │ ││
-│  │  │ Service    │  │ Service  │  │ Service   │ ││
-│  │  └──────┬─────┘  └─────┬───┘  └─────┬─────┘ ││
-│  └─────────┼──────────────┼─────────────┼───────┘│
-└────────────┼──────────────┼─────────────┼────────┘
-             │              │             │
-    ┌────────┼──────────────┼─────────────┼────────┐
-    │        ▼              ▼             ▼        │
-    │  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
-    │  │ Docling  │  │    S3    │  │  Redis   │   │
-    │  │ Serve    │  │          │  │          │   │
-    │  └──────────┘  └──────────┘  └──────────┘   │
-    │              Infrastructure                   │
-    └──────────────────────────────────────────────┘
+│              (FastAPI + Uvicorn)                  │
+│                                                   │
+│  ┌──────────┐  ┌──────────┐  ┌─────────────────┐ │
+│  │ Document │  │ Pipeline │  │ Approval        │ │
+│  │Endpoints │  │ Viewer   │  │ Endpoints       │ │
+│  └─────┬────┘  └─────┬────┘  └────────┬────────┘ │
+└────────┼─────────────┼─────────────────┼─────────┘
+         │             │                 │
+    ┌────┼─────────────┼─────────────────┼────┐
+    │    ▼             ▼                 ▼    │
+    │ ┌─────────┐ ┌──────────┐ ┌───────────┐  │
+    │ │ Docling │ │    S3    │ │   Redis   │  │
+    │ └─────────┘ └──────────┘ └───────────┘  │
+    │              Infrastructure              │
+    └──────────────────────────────────────────┘
 ```
 
-*System component diagram showing the three-layer architecture: a WordPress site connects to the Equalify Reflow API (FastAPI + Uvicorn), which contains Document, Pipeline Viewer, and Approval endpoint groups. These feed into a shared Service Layer (Processing, Storage, and Queue services), which communicates with the infrastructure layer containing Docling Serve (PDF extraction), S3 (document storage), and Redis (job state and queuing).*
+*A WordPress site (or any API client) talks to the Reflow API, which exposes three endpoint groups. The API leans on Docling for PDF extraction, S3 for document storage, and Redis for job state.*
 
-### Conversion Engine (equalify-reflow)
+### Conversion engine — `equalify-reflow`
 
-The core service. A FastAPI application that accepts PDF uploads, runs the five-stage pipeline, and returns accessible markdown.
+The core service. A FastAPI application that accepts PDF uploads, runs the five-phase pipeline, and returns accessible markdown. Key responsibilities:
 
-**Key responsibilities:**
-- REST API for document submission, status tracking, and SSE streaming
-- PII scanning via Microsoft Presidio before any AI processing
-- Five-stage conversion pipeline with AI agents (Claude via AWS Bedrock)
-- Change ledger recording every edit with reasoning
-- Job state management and event streaming via Redis
-- Document storage and retrieval via S3
+- REST API for document submission, status, streaming, and PII approval
+- Microsoft Presidio PII scan before any AI processing
+- Five-phase conversion pipeline with Claude-based agents
+- Change ledger recording every AI edit with reasoning
+- Job state and progress streaming via Redis
 
-### WordPress Plugin (equalify-reflow-wp)
+### WordPress plugin — `equalify-reflow-wp`
 
-Integrates the conversion engine with WordPress. Administrators process PDFs from the Media Library; results are stored as WordPress posts and served through a built-in viewer.
+Integrates Reflow into a WordPress Media Library workflow. Admins process PDFs; readers see an accessible viewer with a table of contents, full-text search, and downloads. See [use the WordPress plugin](../how-to/use-the-wordpress-plugin.md).
 
-See [use the WordPress plugin](../how-to/use-the-wordpress-plugin.md).
+### Feedback service — `equalify-reflow-feedback`
 
-### Feedback Service (equalify-reflow-feedback)
+A lightweight FastAPI + SQLite service that collects issue reports and text corrections from every connected viewer. Aggregates reports across sites and surfaces patterns via Metabase — the loop that tells the team which pipeline phases need the most work.
 
-A separate FastAPI + SQLite service that collects issue reports and text corrections from viewers. Provides filtering, aggregation, and a Metabase dashboard for analyzing feedback patterns.
-
-## Data Flow
-
-### Standard Processing Flow
+## How a document moves through the system
 
 ```
-1. PDF uploaded → S3 temp bucket
-2. PII scan (Microsoft Presidio)
-   ├─ Pass → queue for processing
-   └─ Fail → hold for human approval
-3. Pipeline processing (5 stages)
-   └─ Each stage: AI agent processes → edits recorded in change ledger
-4. Results stored in S3 results bucket
-5. Job marked completed → SSE event emitted
-6. Client downloads markdown + figures via pre-signed S3 URLs
+1. PDF uploaded           → API → S3 temp bucket
+2. PII scan (Presidio)
+      ├─ No PII detected  → queue for processing
+      └─ PII detected     → hold for human approval decision
+3. Pipeline (5 phases)    → each phase: AI agent processes, edits recorded in change ledger
+4. Results stored         → S3 results bucket (markdown + figures)
+5. Job marked completed   → SSE event to connected clients
+6. Client downloads       → pre-signed S3 URLs for markdown and figures
 ```
 
-*Data flow diagram showing the six steps of document processing: PDF upload to S3, PII scanning with pass/fail branching, five-stage pipeline processing with change ledger recording, results storage in S3, job completion notification via SSE, and client download of markdown and figures via pre-signed URLs.*
+## Real-time progress via Server-Sent Events
 
-### SSE Streaming Architecture
+The pipeline runs independently of any connected client — fault-tolerant by design:
 
-Real-time progress is delivered via Server-Sent Events. The architecture is designed so the pipeline runs independently of client connections:
+1. Client submits and gets a `job_id`
+2. Client requests a short-lived **stream token** (browsers can't send custom headers on `EventSource`)
+3. Client opens SSE with the token as a query parameter
+4. Pipeline publishes progress events; the SSE endpoint relays them to subscribed clients
+5. If a client disconnects, the pipeline keeps running. The client can reconnect and replay missed events
 
-1. Client submits a document and receives a `job_id`
-2. Client requests a single-use **stream token** (because `EventSource` can't send headers)
-3. Client opens SSE connection with the token as a query parameter
-4. Pipeline emits events to Redis pub/sub → SSE endpoint relays to connected clients
-5. If the client disconnects, the pipeline continues. The client can reconnect and replay missed events
+Both the built-in viewer and the WordPress plugin consume this same stream.
 
-This pattern is used by both the built-in viewer and the WordPress plugin.
+## Technology choices
 
-## Service Layer
+| Concern | Stack |
+|---|---|
+| API framework | Python 3.11+, FastAPI, Uvicorn — async throughout |
+| PDF extraction | [IBM Docling](https://github.com/docling-project/docling) — layout analysis and table structure recognition |
+| AI | Claude 4.5 (Haiku as the default tier; Sonnet reserved for heavier analysis); swappable between AWS Bedrock and Anthropic direct |
+| Agent framework | [PydanticAI](https://ai.pydantic.dev/) — schema-validated structured outputs, tool calling |
+| PII detection | [Microsoft Presidio](https://microsoft.github.io/presidio/) |
+| Object storage | S3 (real in production, [Floci](https://github.com/floci-io/floci) emulator locally) |
+| Job state + pub/sub | Redis |
+| Containerisation | Docker / Docker Compose (local); ECS Fargate (production) |
+| Observability | Prometheus + Grafana (metrics), Jaeger (traces) |
 
-### ProcessingService
+## Privacy and security posture
 
-Orchestrates the conversion pipeline. Manages the dossier (document context that accumulates through pipeline stages), coordinates AI agents, and records the change ledger.
+- **PII scan up front.** Every document passes through Presidio before any AI sees it. Matches trigger a human-in-the-loop approval token — nothing proceeds without an explicit decision.
+- **Authenticated API surface.** `/api/v1/*` endpoints require `X-API-Key`. Browser-friendly streaming uses short-lived, single-use tokens exchanged from the API key, never the API key itself.
+- **Intentionally public.** The viewer SPA, `/docs` (OpenAPI), `/health`, and `/metrics` are public by design — documentation and operational probes should always be reachable.
+- **Data lifecycle.** Temp uploads live in a dedicated S3 bucket with a short retention; results live in a separate bucket. Old jobs and their artefacts are cleaned up automatically.
+- **No stored credentials in the pipeline path.** Production uses AWS IAM roles for Bedrock; API keys never leave the server side. Redaction happens at the middleware boundary before any log line.
 
-### StorageService
+## Deployment shapes
 
-Wraps S3 operations with circuit breakers and retry logic. Handles upload, download, and pre-signed URL generation for both temp and results buckets.
+- **Local development** — `make dev` brings up the full stack in Docker Compose with hot reload. Bedrock and Anthropic direct are both supported locally via `AI_PROVIDER`.
+- **Production (UIC deployment)** — ECS Fargate behind an ALB, ElastiCache Redis, S3 for storage, Bedrock for AI, CloudWatch for logs and alarms. Zero-downtime deploys via CodeDeploy blue/green.
+- **Other deployments** — the stack is containerised end-to-end, so alternative hosts (self-hosted Docker, other cloud providers with compatible services) are viable. Bring your own S3-compatible storage and Redis; point `AI_PROVIDER` at whichever backend you have credentials for.
 
-### QueueService
+## Resilience
 
-Redis-based job queuing. Documents are enqueued after PII scanning and dequeued by background workers.
+Reflow is designed so that a flaky dependency doesn't cascade:
 
-### JobService
+- S3 operations sit behind retries with exponential backoff and circuit breakers — sustained S3 trouble fails fast instead of piling up timeouts.
+- `/health` verifies Redis, S3, and queue connectivity; `/health/ready` is a lighter readiness probe for orchestration.
+- Pipeline steps degrade gracefully — a non-fatal failure emits an error event and the pipeline continues with the best output it has.
 
-Manages job state in Redis using Lua scripts for atomic operations. Tracks status transitions, stores metadata, and publishes state-change events.
-
-### PIIDetectionService
-
-Scans document text using Microsoft Presidio. Detects email addresses, phone numbers, SSNs, and other PII entity types. Configurable confidence threshold.
-
-## AI Agent Architecture
-
-The pipeline uses [PydanticAI](https://ai.pydantic.dev/) to define agents with tool-call interfaces. Each agent:
-
-- Receives the page as both an **image** and **markdown text**
-- Has access to the **dossier** — accumulated document context from prior stages
-- Makes edits through **tool calls**, each requiring a reasoning explanation
-- Can spawn **sub-agents** for specialized tasks (alt text, tables, lists)
-
-Tool registration is **conditional** — vision tools are only provided when the task involves images, reducing prompt token waste for text-only work.
-
-### Model
-
-The pipeline runs on Claude 4.5 models in two tiers — **Haiku 4.5** (the default, used by every current agent call) and **Sonnet 4.5** (reserved for heavier analysis). The AI backend is pluggable: production runs against AWS Bedrock; local development and alternative deployments can point at Anthropic direct via `ANTHROPIC_API_KEY`. The factory in the contributor repo selects backend + tier at call time without any hardcoded model IDs.
-
-## Infrastructure
-
-### Local Development
-
-```bash
-make dev  # Starts everything via Docker Compose
-```
-
-| Service | Port | Purpose |
-|---------|------|---------|
-| API Gateway | 8080 | FastAPI application |
-| Redis | 6379 | Job state, queues, pub/sub |
-| Floci | 4566 | S3 emulation (lightweight alternative to LocalStack) |
-| Docling Serve | 5001 | PDF extraction sidecar |
-| Prometheus | 9090 | Metrics collection |
-| Grafana | 3001 | Monitoring dashboards |
-| Jaeger | 16686 | Distributed tracing |
-
-Code is mounted into the container with hot reload enabled — edit files on your host and changes take effect immediately.
-
-### Production (AWS ECS)
-
-- **ECS Fargate** — containerized API with auto-scaling
-- **S3** — temp and results buckets with lifecycle policies
-- **Redis (ElastiCache)** — managed Redis for job state
-- **AWS Bedrock** — Claude model access (no API keys needed, uses IAM roles)
-- **CloudWatch** — logs and metrics forwarding
-- **Terraform** — infrastructure as code in `terraform/`
-
-### Resilience
-
-- **Circuit breakers** on S3 operations — prevent cascading failures when S3 is degraded
-- **Retry logic** with exponential backoff on transient failures
-- **Health checks** — `/health` verifies Redis, S3, and queue connectivity; `/health/ready` for orchestration probes
-- **Graceful degradation** — pipeline steps that fail non-fatally emit an error event and continue
+For the thresholds, retry counts, specific circuit-breaker states, and the resilience test surface, see the [contributor architecture doc](https://github.com/EqualifyEverything/equalify-reflow/blob/main/docs/explanation/architecture.md) and [`docs/explanation/s3-resilience.md`](https://github.com/EqualifyEverything/equalify-reflow/blob/main/docs/explanation/s3-resilience.md) in the reflow repo.
