@@ -77,8 +77,11 @@ async function submitAndStream(apiUrl, apiKey, pdfFile, onPhase, onComplete, onE
   const source = new EventSource(`${apiUrl}${stream_url}`);
 
   source.addEventListener('pipeline:phase', (e) => {
-    const { display_name, step_number, total_steps } = JSON.parse(e.data);
-    onPhase({ display_name, step_number, total_steps });
+    // `user_phase` is the stable public contract: "extraction" | "analysis" |
+    // "headings" | "translation" | "assembly" | "review". Drive progress UI
+    // off that. display_name / step_name are for richer human-readable output.
+    const { user_phase, display_name, step_number, total_steps } = JSON.parse(e.data);
+    onPhase({ user_phase, display_name, step_number, total_steps });
   });
 
   source.addEventListener('processing:complete', async () => {
