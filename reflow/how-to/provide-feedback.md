@@ -11,7 +11,7 @@ When you encounter an issue in a converted document, feedback helps us identify 
 
 ## How to Report
 
-Feedback is collected through the [Equalify Reflow for WordPress](wordpress-plugin.md) plugin. When feedback is enabled in the plugin settings, the document viewer includes a feedback interface where users can submit two types of reports:
+Feedback is collected through the [Equalify Reflow for WordPress](use-the-wordpress-plugin.md) plugin. When feedback is enabled in the plugin settings, the document viewer includes a feedback interface where users can submit two types of reports:
 
 ### Issue Reports
 

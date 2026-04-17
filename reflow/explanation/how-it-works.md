@@ -95,6 +95,6 @@ This ledger is available for human review, creating a transparent audit trail. I
 
 ## Learn More
 
-The source code is not yet publicly available. We are currently in the UIC pilot phase and plan to open-source the full project under the AGPL license.
+Reflow is open-source at [EqualifyEverything/equalify-reflow](https://github.com/EqualifyEverything/equalify-reflow) under AGPL-3.0-or-later — clone it to run the pipeline locally with Docker, or read the contributor docs in that repo for implementation detail.
 
-To learn more or request early access, visit the [Getting Started](getting-started.md) guide or [sign up as a partner](https://equalify.uic.edu/signup/reflow).
+To follow releases and roadmap discussions, visit the [Getting Started](../getting-started.md) guide or [sign up as a partner](https://equalify.uic.edu/signup/reflow).

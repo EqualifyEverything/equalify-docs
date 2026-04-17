@@ -66,7 +66,7 @@ The core service. A FastAPI application that accepts PDF uploads, runs the five-
 
 Integrates the conversion engine with WordPress. Administrators process PDFs from the Media Library; results are stored as WordPress posts and served through a built-in viewer.
 
-See the [WordPress Plugin Guide](wordpress-plugin.md).
+See [use the WordPress plugin](../how-to/use-the-wordpress-plugin.md).
 
 ### Feedback Service (equalify-reflow-feedback)
 
@@ -137,7 +137,7 @@ Tool registration is **conditional** — vision tools are only provided when the
 
 ### Model
 
-The pipeline uses **Claude Haiku** (via AWS Bedrock) for all AI processing steps. Model configuration is managed centrally in `src/agents/model_tiers.py`.
+The pipeline runs on Claude 4.5 models in two tiers — **Haiku 4.5** (the default, used by every current agent call) and **Sonnet 4.5** (reserved for heavier analysis). The AI backend is pluggable: production runs against AWS Bedrock; local development and alternative deployments can point at Anthropic direct via `ANTHROPIC_API_KEY`. The factory in the contributor repo selects backend + tier at call time without any hardcoded model IDs.
 
 ## Infrastructure
 
@@ -151,7 +151,7 @@ make dev  # Starts everything via Docker Compose
 |---------|------|---------|
 | API Gateway | 8080 | FastAPI application |
 | Redis | 6379 | Job state, queues, pub/sub |
-| LocalStack | 4566 | S3 emulation |
+| Floci | 4566 | S3 emulation (lightweight alternative to LocalStack) |
 | Docling Serve | 5001 | PDF extraction sidecar |
 | Prometheus | 9090 | Metrics collection |
 | Grafana | 3001 | Monitoring dashboards |
