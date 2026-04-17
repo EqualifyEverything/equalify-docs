@@ -1,6 +1,6 @@
 # Equalify Reflow documentation
 
-Equalify Reflow turns PDF documents into accessible markdown. These docs are organised in [Diátaxis](https://diataxis.fr/) modes — each page serves one purpose.
+Equalify Reflow turns PDF documents into accessible markdown. These docs are grouped by what you're trying to do — each page serves one purpose.
 
 **New here?** Start with [Getting Started](getting-started.md) to find the path that matches you (partner, WordPress user, or developer).
 
