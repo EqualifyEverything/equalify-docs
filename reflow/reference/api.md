@@ -134,12 +134,12 @@ GET /api/v1/documents/{job_id}/stream?token={stream_token}
 
 | Event | Data | Description |
 |---|---|---|
-| `pipeline:phase` | `{display_name, step_number, total_steps}` | A pipeline stage started |
+| `pipeline:phase` | `{user_phase, display_name, step_name, step_number, total_steps}` | A pipeline stage started |
 | `processing:complete` | `{}` | Finished successfully |
 | `processing:error` | `{error}` | Failed |
 | `done` | `{}` | Stream is closing |
 
-> **Note on phase names:** `display_name` currently uses internal step names (e.g. `Docling Extraction`, `Heading Reconciliation`). The 5 public pipeline phases (Extraction, Analysis, Headings, Translation, Assembly) that the viewer and WP plugin display are mapped client-side from these internal names. Alignment work is in progress — the contract here will become a public-phase name directly.
+> **Use `user_phase` for progress UI.** Every `pipeline:phase` event carries a `user_phase` field — one of `extraction`, `analysis`, `headings`, `translation`, `assembly`, or `review`. That's the stable public contract, matching the five phases the viewer and WordPress plugin display. `display_name` (human-readable, e.g. "Heading Reconciliation") and `step_name` (internal identifier) are also provided for richer progress detail, but their values are not a stable contract — drive any UI state off `user_phase`.
 
 ## PII approval
 
