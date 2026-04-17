@@ -103,7 +103,7 @@ Feedback flows to the centralised [Equalify Reflow Feedback Service](https://git
 
 | Problem | First thing to try |
 |---|---|
-| "Connection failed" when saving settings | Confirm the API URL is reachable from the WordPress server (not just your browser) — try `curl -H "X-API-Key: $KEY" $API_URL/health` from SSH. |
+| "Connection failed" when saving settings | Confirm the API URL is reachable from the WordPress server (not just your browser) — try `curl $API_URL/health` from SSH (the health endpoint is public; no API key needed). |
 | Progress bar stuck at 0% | Browser console may show SSE errors. The plugin falls back to polling; give it 30 seconds. |
 | Processing completes but figures don't appear | Check `wp-content/uploads/` is writable by the web server. |
 | Viewer URL returns 404 | Go to **Settings > Permalinks > Save Changes** (no changes needed, just save — this flushes rewrite rules). |
