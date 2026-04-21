@@ -11,35 +11,11 @@ Equalify Reflow is three services working together: a conversion engine, a WordP
 
 ## System Components
 
-```
-                    ┌─────────────────┐
-                    │  WordPress Site  │
-                    │  (reflow-wp)     │
-                    └────────┬────────┘
-                             │
-              ┌──────────────┼──────────────┐
-              │              │              │
-              ▼              ▼              ▼
-┌──────────────────────────────────────────────────┐
-│              Equalify Reflow API                  │
-│              (FastAPI + Uvicorn)                  │
-│                                                   │
-│  ┌──────────┐  ┌──────────┐  ┌─────────────────┐ │
-│  │ Document │  │ Pipeline │  │ Approval        │ │
-│  │Endpoints │  │ Viewer   │  │ Endpoints       │ │
-│  └─────┬────┘  └─────┬────┘  └────────┬────────┘ │
-└────────┼─────────────┼─────────────────┼─────────┘
-         │             │                 │
-    ┌────┼─────────────┼─────────────────┼────┐
-    │    ▼             ▼                 ▼    │
-    │ ┌─────────┐ ┌──────────┐ ┌───────────┐  │
-    │ │ Docling │ │    S3    │ │   Redis   │  │
-    │ └─────────┘ └──────────┘ └───────────┘  │
-    │              Infrastructure              │
-    └──────────────────────────────────────────┘
-```
+A WordPress site (or any API client — including the hosted web app) talks to the Reflow API, which exposes three endpoint groups: **Document**, **Pipeline Viewer**, and **Approval**. The API is a FastAPI + Uvicorn service backed by three pieces of infrastructure:
 
-*A WordPress site (or any API client) talks to the Reflow API, which exposes three endpoint groups. The API leans on Docling for PDF extraction, S3 for document storage, and Redis for job state.*
+- **Docling** — PDF extraction (layout analysis, table structure recognition, OCR)
+- **S3** — document storage (uploads, generated markdown, extracted figures)
+- **Redis** — job state, rate-limit counters, and the pub/sub channel used for progress streaming
 
 ### Conversion engine — `equalify-reflow`
 
@@ -61,16 +37,14 @@ Issue reports and text corrections submitted from the viewer are collected by th
 
 ## How a document moves through the system
 
-```
-1. PDF uploaded           → API → S3 temp bucket
-2. PII scan (Presidio)
-      ├─ No PII detected  → queue for processing
-      └─ PII detected     → hold for human approval decision
-3. Pipeline (5 phases)    → each phase: AI agent processes, edits recorded in change ledger
-4. Results stored         → S3 results bucket (markdown + figures)
-5. Job marked completed   → SSE event to connected clients
-6. Client downloads       → pre-signed S3 URLs for markdown and figures
-```
+1. **PDF uploaded** — the client sends the file to the API, which stages it in the S3 temp bucket.
+2. **PII scan (Presidio)** — every document is scanned before any AI sees it:
+   - *No PII detected* — the job is queued for processing.
+   - *PII detected* — the job is held until a human approves or cancels it.
+3. **Pipeline (5 phases)** — each phase runs an AI agent over the current document state; every edit is recorded in the change ledger with its reasoning.
+4. **Results stored** — final markdown and extracted figures land in the S3 results bucket.
+5. **Job marked completed** — an SSE event notifies every connected client.
+6. **Client downloads** — the API hands back pre-signed S3 URLs for the markdown and figures.
 
 ## Real-time progress via Server-Sent Events
 
