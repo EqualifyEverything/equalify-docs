@@ -50,21 +50,9 @@ Typical end-to-end time for a 6-page PDF on Claude Haiku 4.5: **~3 minutes**, ab
 
 Once the first stage completes, the viewer opens up into its working layout:
 
-```
-┌────────────────────────────────────────────────────────────────┐
-│  Header: logo | Extraction | Analysis | Headings | ...         │
-├────────────────────────────────────────────────────────────────┤
-│  Stats bar: pages | chars/page | figures | time | cost         │
-├──────┬─────────────────────────────────┬───────────────────────┤
-│ Page │  Page image        │  Rendered  │  Changes panel       │
-│ list │  (left panel)      │  markdown  │  (right sidebar)     │
-│      │                    │  (right)   │                      │
-│  1   │                    │            │  3 changes           │
-│  2   │                    │            │  in this stage       │
-│  3   │                    │            │  [View details]      │
-│  ... │                    │            │                      │
-└──────┴─────────────────────────────────┴───────────────────────┘
-```
+![Completed Equalify Reflow run. All five pipeline stage tabs across the top show green checkmarks. A stats bar lists run metrics — page count, average characters per page, figure count, total time, cost — alongside Feedback, Auto-advance, and New PDF buttons. Below, three panels: page thumbnails on the far left, the original PDF page image in the centre-left, and the converted accessible HTML in the centre-right. A Changes panel on the far right summarises how many edits the AI made in the current stage.](https://raw.githubusercontent.com/EqualifyEverything/equalify-docs/main/reflow/assets/reflow-complete.png)
+
+*Header and stage tabs at the top, stats bar below, page thumbnails on the far left, page image and rendered markdown in the middle, changes panel on the right.*
 
 ### The page sidebar (left)
 
