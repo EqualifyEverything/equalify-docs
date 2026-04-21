@@ -9,7 +9,7 @@ description: Install the Equalify Reflow for WordPress plugin, configure it agai
 
 By the end of this walkthrough you will have installed the Equalify Reflow for WordPress plugin, pointed it at a running Reflow API, and converted a real PDF from the Media Library into an accessible viewer page. Plan for **~20 minutes** on a site that already has WordPress running.
 
-For day-to-day reference on the plugin's features, see [use the WordPress plugin](../how-to/use-the-wordpress-plugin.md). This tutorial walks you through the path end-to-end; that page is the task reference after you're set up.
+For day-to-day reference on the plugin's features, see [use the WordPress plugin](../how-to/use-the-wordpress-plugin). This tutorial walks you through the path end-to-end; that page is the task reference after you're set up.
 
 ## What you need
 
@@ -17,7 +17,7 @@ For day-to-day reference on the plugin's features, see [use the WordPress plugin
 - **A Reflow API instance** you can reach over HTTPS and its `X-API-Key` credential. If your organisation uses the UIC-hosted instance, that's `https://reflow.equalify.uic.edu`; partners receive the API key through onboarding.
 - **A PDF** already uploaded to your Media Library, or one you'll upload during the tutorial.
 
-If you don't yet have partner access, see [getting started § partners](../getting-started.md#for-partners).
+If you don't yet have partner access, see [getting started § partners](../getting-started#for-partners).
 
 ## 1. Install the plugin
 
@@ -76,7 +76,7 @@ Open the viewer link. You should see:
 - A **search** box that highlights matches across the document
 - Download links for the original PDF and the accessible text version
 
-Click through the table of contents and check that the outline matches what you'd expect for this document. This is the single most important quality check — see [interpret the output](../how-to/interpret-the-output.md) for the full 4-minute review.
+Click through the table of contents and check that the outline matches what you'd expect for this document. This is the single most important quality check — see [interpret the output](../how-to/interpret-the-output) for the full 4-minute review.
 
 ## 6. Check the media library updated
 
@@ -114,7 +114,7 @@ Reports are reviewed by the Equalify team and feed directly into pipeline improv
 
 ## Where to go next
 
-- [Use the WordPress plugin](../how-to/use-the-wordpress-plugin.md) — day-to-day reference (managing documents, re-processing, multisite setup)
-- [Interpret the output](../how-to/interpret-the-output.md) — the reviewer's quality checklist
-- [Provide feedback](../how-to/provide-feedback.md) — how to submit corrections and issue reports
-- [How it works](../explanation/how-it-works.md) — what's actually happening during those five stages
+- [Use the WordPress plugin](../how-to/use-the-wordpress-plugin) — day-to-day reference (managing documents, re-processing, multisite setup)
+- [Interpret the output](../how-to/interpret-the-output) — the reviewer's quality checklist
+- [Provide feedback](../how-to/provide-feedback) — how to submit corrections and issue reports
+- [How it works](../explanation/how-it-works) — what's actually happening during those five stages

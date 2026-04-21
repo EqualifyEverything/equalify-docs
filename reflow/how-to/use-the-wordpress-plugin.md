@@ -9,7 +9,7 @@ description: Install, configure, and use the Equalify Reflow for WordPress plugi
 
 The Equalify Reflow for WordPress plugin lets administrators process PDF attachments directly from the Media Library. Converted documents are served through an accessible viewer that supports a table of contents, full-text search, and downloadable markdown.
 
-For a narrative first-time walkthrough of installing the plugin and converting your first PDF, see [process your first PDF with WordPress](../tutorials/process-your-first-pdf-with-wordpress.md). This page is the task reference for day-to-day use.
+For a narrative first-time walkthrough of installing the plugin and converting your first PDF, see [process your first PDF with WordPress](../tutorials/process-your-first-pdf-with-wordpress). This page is the task reference for day-to-day use.
 
 ## Install and configure
 
@@ -109,7 +109,7 @@ In **Settings > Equalify Reflow**:
 
 For developers and integrators: the plugin talks to the Reflow API through a short sequence of REST calls — submit the PDF, open a live progress stream using a short-lived token so the API key never reaches the browser, then fetch the finished text and figures and save them into WordPress. If the live stream drops, the plugin quietly falls back to checking progress every few seconds until the job finishes.
 
-The full API walkthrough is in [integrate via the API](integrate-via-api.md).
+The full API walkthrough is in [integrate via the API](integrate-via-api).
 
 ## Multisite support
 

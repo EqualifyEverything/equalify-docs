@@ -29,7 +29,7 @@ That format is **Markdown** — a simple plain-text way of writing documents whe
 
 ## The Pipeline
 
-Equalify Reflow is reachable through two user-facing surfaces — the hosted [web app](../how-to/use-the-web-app.md) at `reflow.equalify.uic.edu` for browser-based use, and the [WordPress plugin](../how-to/use-the-wordpress-plugin.md) for sites that manage PDFs from the Media Library — both of which run documents through the same pipeline described below.
+Equalify Reflow is reachable through two user-facing surfaces — the hosted [web app](../how-to/use-the-web-app) at `reflow.equalify.uic.edu` for browser-based use, and the [WordPress plugin](../how-to/use-the-wordpress-plugin) for sites that manage PDFs from the Media Library — both of which run documents through the same pipeline described below.
 
 Equalify Reflow converts PDFs through a five-stage pipeline:
 
@@ -101,4 +101,4 @@ The result is a transparent audit trail. In human-review mode, an administrator 
 
 Reflow is open-source at [EqualifyEverything/equalify-reflow](https://github.com/EqualifyEverything/equalify-reflow) under AGPL-3.0-or-later — clone it to run the pipeline locally with Docker, or read the contributor docs in that repo for implementation detail.
 
-To follow releases and roadmap discussions, visit the [Getting Started](../getting-started.md) guide or [sign up as a partner](https://equalify.uic.edu/signup/reflow).
+To follow releases and roadmap discussions, visit the [Getting Started](../getting-started) guide or [sign up as a partner](https://equalify.uic.edu/signup/reflow).

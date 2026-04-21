@@ -9,7 +9,7 @@ description: Upload, review, and download accessible documents through the Equal
 
 The Equalify Reflow web app lets anyone with access to a running instance convert a PDF into accessible markdown from a browser. No installation, no command line, no API integration. The web app walks each document through the same pipeline the WordPress plugin and API use, and surfaces every phase — including the PII review gate — in the UI.
 
-For a narrative first-time walkthrough, see [process your first PDF with the web app](../tutorials/process-your-first-pdf-with-the-web-app.md). This page is the task reference for day-to-day use.
+For a narrative first-time walkthrough, see [process your first PDF with the web app](../tutorials/process-your-first-pdf-with-the-web-app). This page is the task reference for day-to-day use.
 
 ## Access
 
@@ -126,7 +126,7 @@ The web app automatically attaches the session identifier, document title, and t
 
 Reports are reviewed by the Equalify team and inform pipeline improvements.
 
-If you spotted a specific text error, use the Description field to name the affected page and quote the before/after. For the wider feedback framing, see [provide feedback](../how-to/provide-feedback.md).
+If you spotted a specific text error, use the Description field to name the affected page and quote the before/after. For the wider feedback framing, see [provide feedback](../how-to/provide-feedback).
 
 ## Keyboard shortcuts
 
@@ -145,7 +145,7 @@ All interactive controls (tabs, page buttons, drop zone, panel buttons) respond 
 
 ## Managing jobs
 
-Each upload is a one-shot session in the UI. The web app doesn't offer a persistent library or job queue — the **New PDF** button in the stats bar resets to the upload screen, and the previous run isn't kept in the UI. If you need a library, the WordPress plugin manages processed documents as Media Library attachments; if you need programmatic access to past runs, see [integrate via the API](integrate-via-api.md).
+Each upload is a one-shot session in the UI. The web app doesn't offer a persistent library or job queue — the **New PDF** button in the stats bar resets to the upload screen, and the previous run isn't kept in the UI. If you need a library, the WordPress plugin manages processed documents as Media Library attachments; if you need programmatic access to past runs, see [integrate via the API](integrate-via-api).
 
 ## Limits
 
@@ -159,7 +159,7 @@ Because the web app has no sign-in, the instance is protected by per-document an
 | Status checks from a single IP | 100 | rolling 1 hour |
 | Submissions across the whole instance | 1000 | rolling 24 hours |
 
-If you hit a limit, the web app surfaces an HTTP 429 response with a `Retry-After` value telling you when to try again. A browser refresh won't reset the counter — the limit is tracked per IP on the server. For the full list of endpoints and response shapes, see the [API reference](../reference/api.md).
+If you hit a limit, the web app surfaces an HTTP 429 response with a `Retry-After` value telling you when to try again. A browser refresh won't reset the counter — the limit is tracked per IP on the server. For the full list of endpoints and response shapes, see the [API reference](../reference/api).
 
 ## Troubleshooting
 
