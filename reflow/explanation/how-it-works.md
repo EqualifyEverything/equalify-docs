@@ -9,77 +9,81 @@ description: The five-stage pipeline that converts PDFs into accessible, semanti
 
 ## The Thesis
 
-Documents are primarily written in two languages at once. There's the text — the words on the page. And there's the **visual language** — the conventions of size, weight, position, proximity, and spacing that tell you what those words *mean* structurally. Biggest text, centered, top of page? Title. Small italic text under an image? Caption. Indented block with a bullet? List item. This is a language that sighted people understand fluently without much thought.
+Documents are written in two languages at once. There's the text — the words on the page. And there's the **visual language** — the cues of size, weight, position, proximity, and spacing that tell you what those words *mean* structurally. Biggest text, centred, top of page? Title. Small italic text under an image? Caption. Indented block with a bullet? List item. Sighted readers understand this language fluently without much thought — but a screen reader, or any program that only sees the text, doesn't.
 
-Multimodal AI models — models that process both images and text — have an understanding of **visual language** and the coding knowledge to express it as **semantic structure**. This makes translating from a visual layout to accessible HTML a natural fit for what these models already do.
+Modern AI models can now read both images and text at the same time. That means they can look at a page the way a sighted reader does and also produce a structured, machine-readable version of it — one where headings are marked as headings, lists as lists, images with proper descriptions. That is exactly the translation accessible documents need.
 
-But having a model that *can* translate isn't the same as having a system that *does* translate reliably. A bilingual dictionary contains real knowledge, but it doesn't make you a translator. Translation requires architecture: knowing what you're translating from, what you're translating to, what counts as correct, and how to verify the output. That's what Equalify Reflow is.
+But having a model that *can* translate isn't the same as having a system that *does* translate reliably. A bilingual dictionary contains real knowledge, but it doesn't make you a translator. Reliable translation requires a process: knowing what you're translating from, what you're translating to, what counts as correct, and how to verify the result. That's what Equalify Reflow is.
 
 ## Why Markdown
 
-Instead of trying to "fix" PDFs — a format designed for print fidelity where accessibility is bolted on after the fact — we extract the content and rebuild it in a format that is natively accessible.
+Instead of trying to "fix" PDFs — a format designed for print, where accessibility is bolted on after the fact — we extract the content and rebuild it in a format that is accessible by design.
 
-That format is **Markdown**:
+That format is **Markdown** — a simple plain-text way of writing documents where a line starting with `#` is a heading, a line starting with `-` is a list item, and so on. It was invented to make writing for the web easier, and it has a few useful properties:
 
-- **Democratic by design** — plain text, no proprietary tooling, owned by no one
-- **Human-readable without rendering** — open it in any text editor and understand the structure
-- **Semantically rich** — headings, lists, tables, links all have explicit structural meaning
-- **Maps directly to HTML** — renders losslessly into accessible HTML with proper heading hierarchy, table headers, alt text, and landmark regions
-- **Lingua franca** — readable by humans, AI models, and computer programs alike. LLMs already output markdown by default because it's efficient, structured, and carries meaning
+- **Owned by no one** — plain text, no proprietary tools, no vendor lock-in
+- **Readable without software** — open it in any text editor and you can still follow the structure
+- **Structure is explicit** — headings, lists, tables, links all carry clear structural meaning rather than being faked with formatting
+- **Converts cleanly to accessible HTML** — with proper headings, table headers, alt text, and page landmarks
+- **Universally understood** — readable by people, by AI models, and by other programs
 
 ## The Pipeline
+
+Equalify Reflow is reachable through two user-facing surfaces — the hosted [web app](../how-to/use-the-web-app.md) at `reflow.equalify.uic.edu` for browser-based use, and the [WordPress plugin](../how-to/use-the-wordpress-plugin.md) for sites that manage PDFs from the Media Library — both of which run documents through the same pipeline described below.
 
 Equalify Reflow converts PDFs through a five-stage pipeline:
 
 ### Stage 1: Extraction
 
-[IBM Docling](https://github.com/docling-project/docling) handles the first pass. It uses smaller, efficient models and whatever structural data already exists inside the PDF to produce a first-pass markdown version. This handles mechanical parsing — text blocks, tables, images, reading order — without burning expensive LLM calls on mechanical work. Gets you roughly 70% of the way there.
+[IBM Docling](https://github.com/docling-project/docling) handles the first pass. It pulls the text, tables, images, and reading order straight out of the PDF using the structural information already inside the file. This gets us roughly 70% of the way there before any AI is involved, which keeps conversions fast and inexpensive.
 
-If the document is scanned (image-only), Docling applies OCR to extract the text before proceeding.
+If the document is a scan — an image of a page rather than a PDF that already contains selectable text — Docling runs optical character recognition (OCR) to read the text off the image first.
 
 ### Stage 2: Analysis
 
-Before the AI processes a page, we need to understand what we're looking at. This stage analyzes the PDF's visual presentation alongside the semantic data pulled from Docling to classify the document type — is this a poster, an academic paper, a syllabus, a flyer?
+Before the AI processes a page, we need to understand what we're looking at. This stage looks at both the visual presentation and the text pulled from Docling to classify the document — is this a poster, an academic paper, a syllabus, a flyer?
 
-The document type matters because it **dynamically adjusts the prompt** given to the model. A two-column academic paper needs different handling than a single-page event poster.
+The document type matters because it changes how Reflow talks to the AI in later stages. A two-column academic paper needs different handling than a single-page event poster, so the instructions we send the AI are tailored to match.
 
-This stage also produces a structural map of the document: an outline of headings and sections, page-level attributes (layout type, content flags like images, tables, equations), footnote locations, and any elements that need special attention. All of this context is carried forward through the pipeline as a **dossier** that informs every downstream decision.
+This stage also builds a working summary of the document: an outline of its headings and sections, a note on each page's layout and what it contains (images, tables, equations), where footnotes live, and anything else that needs special attention. That summary is carried forward so every later stage has the full context of the document it is working on — not just the single page in front of it.
 
 ### Stage 3: Headings
 
-Headings come first because a valid heading hierarchy is the backbone of document accessibility. Get that right and everything else has a skeleton to hang on. The agent infers heading levels from visual signals: font size, weight, position, spacing — and reconciles them into a consistent hierarchy across the entire document.
+Headings come first because a correct heading outline is the backbone of an accessible document. Screen reader users navigate almost entirely by jumping between headings, so the difference between a real heading and text that merely *looks* big is enormous. Get the outline right and everything else has a skeleton to hang on.
+
+At this stage the AI studies the visual cues — font size, weight, position, spacing — and decides which lines are top-level headings, which are sub-headings, and so on, working across the whole document so the outline stays consistent from start to finish.
 
 ### Stage 4: Translation
 
-This is where the core translation happens. Each page is given to a multimodal LLM as both an **image** and its **current markdown interpretation**. The model's job is to edit the markdown to make it match what the visual page communicates.
+This is where the core translation happens. For each page, the AI is shown two things side by side: a picture of the page, and the current draft of its text. Its job is to edit the draft so that it faithfully matches what a sighted reader sees on the page.
 
-The model works through **tool calls** — each edit includes a reasoning explanation, giving us insight into how the model is interpreting the document. This reasoning trail is recorded in a **change ledger** for auditability.
+Every edit the AI makes is recorded along with a short explanation of *why* it made that edit. That gives reviewers a trail they can audit later — see the change ledger below.
 
-Some of those tool calls spawn **specialist sub-agents** for tasks that need focused expertise:
+For particular tasks that benefit from focused expertise, the main AI hands off to specialists:
 
-- **Alt Text Agent** — image description, chart summarization, decorative vs. meaningful labeling
-- **Table Agent** — cell relationships, header associations, complex table structures
-- **List Agent** — nested list reconstruction, continuation across visual breaks
+- **Image descriptions** — writing alt text, summarising charts, and deciding which images are decorative (and can be skipped by screen readers) versus meaningful (which need a description)
+- **Tables** — getting header rows right, matching cells to their column headers, and handling complex layouts like merged cells
+- **Lists** — rebuilding nested lists and reconnecting lists that were broken across columns or pages
 
 ### Stage 5: Assembly
 
-The final pass brings all the individual markdown pages together into a single document and removes page boundaries — pages are a print metaphor, and on screens they're an obstacle. An AI examines the boundaries between pages and fixes artifacts from the paged presentation: words split across pages, tables or lists that were broken by a page break, footnotes relocated to their logical position, and other seams left over from the original layout.
+The final pass joins the individual pages into one continuous document and smooths over the seams. Pages are a print idea — on a screen they get in the way. The AI looks at every page boundary and fixes the usual paper-to-screen problems: a word split across pages, a table or list chopped in half by a page break, a footnote stranded far from the sentence it belongs to.
 
-The result is a reflowable, responsive document that adapts to any viewport, any device, any rendering context — accessible by construction.
+The result is a single document that flows naturally on any screen size and any device, with its accessibility built in rather than bolted on.
 
 ## PII Protection
 
-Before any AI processing occurs, every document is scanned for personally identifiable information using [Microsoft Presidio](https://microsoft.github.io/presidio/). If PII is detected — names, emails, phone numbers, SSNs — the document is held for human review before proceeding. The system is designed for course materials only, not student records.
+Before any AI processing happens, every document is scanned for personal information — names, email addresses, phone numbers, Social Security numbers, and so on — using [Microsoft Presidio](https://microsoft.github.io/presidio/). If anything sensitive is detected, the document is held for a human to review before it continues through the pipeline. Reflow is designed for course materials, not student records.
 
 ## The Change Ledger
 
 Every edit made by the pipeline is recorded with:
 
-- **What changed** — the before and after text
-- **Why** — the model's reasoning for the edit
-- **Where** — the page and target element
+- **What changed** — the text before and after
+- **Why** — the AI's own explanation for the edit
+- **Where** — which page and which element
 
-This ledger is available for human review, creating a transparent audit trail. In `human` review mode, an administrator can inspect every change before the document is finalized.
+The result is a transparent audit trail. In human-review mode, an administrator can inspect every change before the document is finalised.
 
 ## Tech Stack
 
