@@ -19,7 +19,7 @@ The hosted web app at **[reflow.equalify.uic.edu](https://reflow.equalify.uic.ed
 
 Best for: individual users who need to convert a document now, accessibility reviewers evaluating Reflow's output, or anyone who doesn't run a WordPress site.
 
-Start here: [process your first PDF with the web app](tutorials/process-your-first-pdf-with-the-web-app.md) · [use the web app](how-to/use-the-web-app.md)
+Start here: [process your first PDF with the web app](tutorials/process-your-first-pdf-with-the-web-app) · [use the web app](how-to/use-the-web-app)
 
 ### WordPress plugin — for publishing accessible PDFs on a WordPress site
 
@@ -27,7 +27,7 @@ The Equalify Reflow plugin connects your WordPress site to a Reflow instance. Ad
 
 Best for: organisations that already publish PDFs through a WordPress site and want those PDFs to have an accessible counterpart without changing their publishing workflow.
 
-Start here: [process your first PDF with WordPress](tutorials/process-your-first-pdf-with-wordpress.md) · [use the WordPress plugin](how-to/use-the-wordpress-plugin.md)
+Start here: [process your first PDF with WordPress](tutorials/process-your-first-pdf-with-wordpress) · [use the WordPress plugin](how-to/use-the-wordpress-plugin)
 
 ### API integration — for your own application or workflow
 
@@ -35,7 +35,7 @@ Reflow has an HTTP API that accepts a PDF and returns the accessible version, wi
 
 Best for: developers integrating Reflow into a CMS other than WordPress, building automation around document intake, or embedding the output in a bespoke viewer.
 
-Start here: [integrate via the API](how-to/integrate-via-api.md) · [API reference](reference/api.md)
+Start here: [integrate via the API](how-to/integrate-via-api) · [API reference](reference/api)
 
 ## For partners
 

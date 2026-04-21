@@ -9,9 +9,9 @@ description: A reviewer's checklist for a converted document — what to look at
 
 You've got a converted document back from Reflow. Before you publish it, take a few minutes to check the pipeline got the important things right.
 
-The converted document is viewable from either surface: the [web app](use-the-web-app.md) at `reflow.equalify.uic.edu` and the [WordPress plugin](use-the-wordpress-plugin.md). The questions below apply equally to both.
+The converted document is viewable from either surface: the [web app](use-the-web-app) at `reflow.equalify.uic.edu` and the [WordPress plugin](use-the-wordpress-plugin). The questions below apply equally to both.
 
-For the list of what the output contains and which document types convert well, see [supported document types](../reference/supported-document-types.md).
+For the list of what the output contains and which document types convert well, see [supported document types](../reference/supported-document-types).
 
 ## What a good conversion looks like
 
@@ -84,8 +84,8 @@ Not every issue needs a pipeline change. A rough decision tree:
 - **Systematic issues affecting many documents** (every syllabus in this format has the same heading mistake): worth filing a formal issue against the pipeline — the fix is usually a tweak to the AI's instructions, which can be validated once and rolled out to everyone.
 - **Missing content** (a whole paragraph or page is gone): re-run the document. This is rare and usually points to a transient glitch rather than a quality problem.
 
-See [provide feedback](provide-feedback.md) for how to submit a correction from the viewer.
+See [provide feedback](provide-feedback) for how to submit a correction from the viewer.
 
 ## If the quality is consistently bad for your document type
 
-Check [supported document types](../reference/supported-document-types.md) — some document types are outside the current scope and are expected to produce lower-quality output. If your document type *is* in scope and quality is still poor, that's a pipeline issue worth flagging so it gets prioritised.
+Check [supported document types](../reference/supported-document-types) — some document types are outside the current scope and are expected to produce lower-quality output. If your document type *is* in scope and quality is still poor, that's a pipeline issue worth flagging so it gets prioritised.

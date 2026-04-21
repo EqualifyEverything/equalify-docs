@@ -7,7 +7,7 @@ description: Task-focused recipes for the common API workflows — submit a PDF,
 
 # Integrate via the API
 
-Recipes for the workflows most API integrations need. For the full endpoint surface, see the [API reference](../reference/api.md).
+Recipes for the workflows most API integrations need. For the full endpoint surface, see the [API reference](../reference/api).
 
 All examples assume you have an API key and the Reflow API host (`$API_URL`) set up. For a deployed UIC instance, use `https://reflow.equalify.uic.edu`.
 

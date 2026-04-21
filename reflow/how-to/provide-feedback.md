@@ -16,7 +16,7 @@ There are two ways to tell us something is off:
 
 Pick the one that matches what you found. If you're not sure, use "Report an issue" — it's the right choice whenever the problem isn't a simple word-for-word fix.
 
-Both options are available from both surfaces where Reflow documents are viewed: the [web app](use-the-web-app.md) at `reflow.equalify.uic.edu` (via the **Feedback** button that appears once a conversion finishes) and the [WordPress plugin](use-the-wordpress-plugin.md)'s document viewer.
+Both options are available from both surfaces where Reflow documents are viewed: the [web app](use-the-web-app) at `reflow.equalify.uic.edu` (via the **Feedback** button that appears once a conversion finishes) and the [WordPress plugin](use-the-wordpress-plugin)'s document viewer.
 
 > Feedback is only available when the site has enabled it. If you don't see the buttons described below, the document's publisher hasn't turned feedback on, and you'll need to contact them another way.
 
