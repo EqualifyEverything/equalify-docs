@@ -128,7 +128,7 @@ When the pipeline completes and the instance has feedback enabled, a **Feedback*
 
 The web app automatically attaches the session identifier, document title, and the phase you had selected when you opened the dialog, so the report can be correlated with the run that produced it.
 
-Reports are sent to the [Equalify Reflow Feedback Service](https://github.com/EqualifyEverything/equalify-reflow-feedback), which aggregates feedback across every Reflow surface to inform pipeline improvements.
+Reports are reviewed by the Equalify team and inform pipeline improvements.
 
 If you spotted a specific text error, use the Description field to name the affected page and quote the before/after. For the wider feedback framing, see [provide feedback](../how-to/provide-feedback.md).
 

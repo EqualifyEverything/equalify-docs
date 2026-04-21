@@ -55,9 +55,9 @@ The core service. A FastAPI application that accepts PDF uploads, runs the five-
 
 Integrates Reflow into a WordPress Media Library workflow. Admins process PDFs; readers see an accessible viewer with a table of contents, full-text search, and downloads. See [use the WordPress plugin](../how-to/use-the-wordpress-plugin.md).
 
-### Feedback service — `equalify-reflow-feedback`
+### Feedback loop
 
-A lightweight FastAPI + SQLite service that collects issue reports and text corrections from every connected viewer. Aggregates reports across sites and surfaces patterns via Metabase — the loop that tells the team which pipeline phases need the most work.
+Issue reports and text corrections submitted from the viewer are collected by the Equalify team and used to prioritise which pipeline phases need the most work. This is how real-world usage feeds back into the conversion quality over time.
 
 ## How a document moves through the system
 

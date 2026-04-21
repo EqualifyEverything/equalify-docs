@@ -90,7 +90,7 @@ For the final accessible output, select the **Assembly** tab and use its downloa
 
 When the pipeline completes and feedback is enabled on the instance, a **Feedback** button appears in the stats bar. Use it to report anything that looked wrong — incorrect text, broken tables, missing alt text, or a heading at the wrong level.
 
-Reports flow to the [Equalify Reflow Feedback Service](https://github.com/EqualifyEverything/equalify-reflow-feedback) and directly inform pipeline improvements. See [provide feedback](../how-to/provide-feedback.md) for the details on each category.
+Reports are reviewed by the Equalify team and directly inform pipeline improvements. See [provide feedback](../how-to/provide-feedback.md) for the details on each category.
 
 ## Troubleshooting
 

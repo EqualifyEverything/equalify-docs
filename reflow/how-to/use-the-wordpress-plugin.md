@@ -95,7 +95,7 @@ If feedback is enabled in settings, the viewer includes an interface where users
 - **Report issues** — describe a problem and tag it with a category (content, formatting, accessibility, structure)
 - **Suggest corrections** — highlight text and propose an edit; the original and your suggested version are captured together
 
-Feedback is sent to the [Equalify Reflow Feedback Service](https://github.com/EqualifyEverything/equalify-reflow-feedback), a separate service that collects reports from every site using Reflow.
+Reports are reviewed by the Equalify team and feed directly into pipeline improvements.
 
 ### Configuring feedback
 
@@ -103,7 +103,7 @@ In **Settings > Equalify Reflow**:
 
 - **Enable Feedback** — the on/off switch for the feedback widgets inside the viewer. Turn this off if you don't want readers to submit reports at all.
 - **Feedback Service URL** — where the reports are sent. Your partner onboarding will tell you which URL to use.
-- **Feedback API Key** — the access credential for the feedback service, issued with your onboarding. Like the main API key, treat it as a secret.
+- **Feedback API Key** — the access credential for sending feedback, issued with your onboarding. Like the main API key, treat it as a secret.
 
 ## Under the hood
 

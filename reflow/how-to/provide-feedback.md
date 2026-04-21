@@ -57,7 +57,3 @@ Every submission goes to a central feedback service where the team can:
 - Use your text corrections as real-world examples to test pipeline improvements against
 
 You won't usually get a personal reply, but your report is part of how Reflow gets better: systematic patterns in feedback are what drive the next round of pipeline work.
-
-## Under the hood
-
-For developers and integrators: the viewer sends each report to the [Equalify Reflow Feedback Service](https://github.com/EqualifyEverything/equalify-reflow-feedback), a small companion service that collects reports from every site running Reflow, stores them, and exposes a Metabase dashboard for the team to explore patterns. The feedback service is configured per-site in **Settings > Equalify Reflow** in the WordPress plugin, or in the equivalent configuration for the hosted web app.

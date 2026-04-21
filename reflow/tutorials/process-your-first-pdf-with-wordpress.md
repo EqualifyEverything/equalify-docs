@@ -100,7 +100,7 @@ In **Settings > Equalify Reflow**, turn on **Enable Feedback** and point it at a
 - Report issues and tag them with a category (content, formatting, accessibility, structure)
 - Highlight specific text and propose a correction (select text → suggest edit)
 
-Feedback flows to the central [Equalify Reflow Feedback Service](https://github.com/EqualifyEverything/equalify-reflow-feedback), which collects reports from every connected WordPress site and feeds them back into pipeline improvements.
+Reports are reviewed by the Equalify team and feed directly into pipeline improvements.
 
 ## Troubleshooting
 
