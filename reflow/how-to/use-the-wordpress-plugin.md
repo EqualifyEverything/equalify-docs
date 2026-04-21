@@ -13,14 +13,17 @@ For a narrative first-time walkthrough of installing the plugin and converting y
 
 ## Install and configure
 
-1. Download the latest release from [GitHub Releases](https://github.com/EqualifyEverything/equalify-reflow-wp/releases) and extract it into your WordPress plugins directory (`wp-content/plugins/`).
+1. Download the latest release ZIP from the [equalify-reflow-wp releases page](https://github.com/EqualifyEverything/equalify-reflow-wp/releases). Save it somewhere you can find it — you don't need to unzip it.
 
-2. Activate the plugin from **Plugins > Installed Plugins** (or **Network Activate** for multisite).
+2. In the WordPress admin, go to **Plugins > Add New > Upload Plugin**. Choose the ZIP, click **Install Now**, then **Activate Plugin**. On a multisite, use **Network Activate** instead so each site can point at its own Reflow instance.
 
-3. Navigate to **Settings > Equalify Reflow** and configure:
-   - **API URL** — the address of your Reflow instance (e.g., `https://reflow.equalify.uic.edu`)
-   - **API Key** — your `X-API-Key` credential
-   - **Client API URL** (optional) — if the browser needs a different address than the server to reach the API (common in local development with Docker)
+3. Navigate to **Settings > Equalify Reflow** and fill in these fields:
+
+   - **API URL** — the address of the Reflow service the plugin should talk to. If your organisation is using the hosted UIC instance, this is `https://reflow.equalify.uic.edu`. If you're running Reflow yourself, this is wherever you've deployed it. You'll only change this if you move to a different Reflow instance.
+   - **API Key** — the access credential for that Reflow instance. It's issued to you during partner onboarding. Treat it like a password: paste it here, don't share it, don't commit it to Git.
+   - **Client API URL** (optional) — leave this blank in normal use. It only matters if the server and the visitor's browser need to reach the API at different addresses — which really only happens in local development with Docker.
+
+> **Power users:** you can also install the plugin by uploading the ZIP's contents directly to `wp-content/plugins/` over SFTP, or via WP-CLI (`wp plugin install <path-to-zip> --activate`). The admin UI flow above is the supported path for everyone else.
 
 ## Process a PDF
 
@@ -28,19 +31,19 @@ For a narrative first-time walkthrough of installing the plugin and converting y
 2. In the attachment detail panel, find the **Equalify Reflow** section.
 3. Click **Run Equalify Reflow**.
 
-The plugin submits the PDF to the Reflow API and displays real-time progress through the five pipeline phases:
+The plugin sends the PDF to the Reflow service and shows live progress through the five stages of the conversion:
 
-- **Extraction** — Docling parses the PDF structure
-- **Analysis** — document classification and outline
-- **Headings** — heading hierarchy normalisation
-- **Translation** — per-page content and formatting fixes
-- **Assembly** — cross-page boundary fixes and cleanup
+- **Extraction** — pulling the text, tables, and images out of the PDF
+- **Analysis** — working out what kind of document this is and building its outline
+- **Headings** — sorting out the heading levels so the outline is consistent
+- **Translation** — going through page by page and correcting the text and layout
+- **Assembly** — stitching the pages together and cleaning up the seams
 
-When processing completes, the plugin automatically:
+When processing finishes, the plugin automatically:
 
-- Downloads the accessible markdown to `wp-content/uploads/equalify-reflow/`
-- Sideloads extracted figures into the WordPress media library with alt text
-- Sets the attachment status to **Ready**
+- Saves the accessible version into WordPress
+- Adds each extracted figure to the Media Library with alt text
+- Marks the attachment as **Ready**
 
 ## The viewer
 
@@ -52,10 +55,10 @@ Each processed document gets a public URL at:
 
 The viewer renders the markdown as accessible HTML with:
 
-- **Table of contents** — auto-generated from document headings
-- **Full-text search** — in-document search with result highlighting and keyboard navigation
-- **Downloads** — original PDF or accessible markdown
-- **Responsive layout** — adapts to any screen size
+- **Table of contents** — built automatically from the document's headings
+- **Full-text search** — search inside the document with highlighted results and keyboard shortcuts
+- **Downloads** — the original PDF or the accessible text version
+- **Responsive layout** — adapts to any screen size, from phone to desktop
 
 ### Browsing all documents
 
@@ -69,7 +72,7 @@ Each document has a download endpoint at:
 /equalify-reflow/{attachment-id}/{slug}/download/
 ```
 
-This serves a ZIP containing the markdown and all extracted figures.
+This serves a ZIP containing the accessible text version of the document and all extracted figures.
 
 ## PDF link annotation
 
@@ -81,40 +84,32 @@ This works automatically for any processed, enabled PDF in the Media Library —
 
 From the Media Library attachment panel:
 
-- **Enable / Disable** — toggle public visibility of the accessible version without deleting it
-- **Delete Reflow Data** — remove the markdown, figures, and all metadata. The original PDF is untouched
-- **Re-process** — run the pipeline again to pick up improvements (deletes existing data first)
+- **Enable / Disable** — show or hide the accessible version on your public site without deleting it
+- **Delete Reflow Data** — remove the accessible text, figures, and all related metadata. The original PDF is untouched
+- **Re-process** — run the conversion again to pick up pipeline improvements (existing data is replaced)
 
 ## Collect feedback
 
 If feedback is enabled in settings, the viewer includes an interface where users can:
 
-- **Report issues** — describe a problem with category tagging (content, formatting, accessibility, structure)
-- **Suggest corrections** — select text and propose edits with before/after tracking
+- **Report issues** — describe a problem and tag it with a category (content, formatting, accessibility, structure)
+- **Suggest corrections** — highlight text and propose an edit; the original and your suggested version are captured together
 
-Feedback is sent to the [Equalify Reflow Feedback Service](https://github.com/EqualifyEverything/equalify-reflow-feedback), a separate service that aggregates reports across all connected clients.
+Reports are reviewed by the Equalify team and feed directly into pipeline improvements.
 
 ### Configuring feedback
 
 In **Settings > Equalify Reflow**:
 
-- **Enable Feedback** — turn feedback collection on or off
-- **Feedback Service URL** — address of the feedback service
-- **Feedback API Key** — authentication key for the feedback service
+- **Enable Feedback** — the on/off switch for the feedback widgets inside the viewer. Turn this off if you don't want readers to submit reports at all.
+- **Feedback Service URL** — where the reports are sent. Your partner onboarding will tell you which URL to use.
+- **Feedback API Key** — the access credential for sending feedback, issued with your onboarding. Like the main API key, treat it as a secret.
 
-## How it works under the hood
+## Under the hood
 
-The plugin communicates with the Reflow API through a short sequence of REST calls:
+For developers and integrators: the plugin talks to the Reflow API through a short sequence of REST calls — submit the PDF, open a live progress stream using a short-lived token so the API key never reaches the browser, then fetch the finished text and figures and save them into WordPress. If the live stream drops, the plugin quietly falls back to checking progress every few seconds until the job finishes.
 
-1. **Submit** — `POST /api/v1/documents/submit` uploads the PDF with PII scanning skipped (WordPress content is assumed pre-vetted)
-2. **Stream token** — `POST /api/v1/documents/{job_id}/stream/token` generates a single-use token for the browser
-3. **SSE stream** — browser connects to `GET /api/v1/documents/{job_id}/stream?token=...` for real-time progress
-4. **Status check** — `GET /api/v1/documents/{job_id}` retrieves the completed result with pre-signed S3 URLs
-5. **Download** — the plugin fetches the markdown and figure images from S3 and stores them locally in WordPress
-
-If the SSE stream disconnects, the plugin falls back to polling the status endpoint every 5 seconds until the job completes.
-
-All API communication happens server-side (PHP) except for the SSE stream, which connects directly from the browser. The stream token ensures the API key is never exposed to the client.
+The full API walkthrough is in [integrate via the API](integrate-via-api.md).
 
 ## Multisite support
 
@@ -124,25 +119,25 @@ The plugin supports WordPress multisite. Each site can have its own API configur
 
 **"Connection failed" when processing**
 
-- Verify the API URL is reachable from your server (not just your browser)
-- Check that the API key is correct in settings
-- If using Docker locally, the Client API URL may need to differ from the server-side API URL
+- Check that the API URL in settings is reachable from the WordPress server, not just from your laptop
+- Check that the API key is correct — a stray space when pasting is a common cause
+- If you're running everything locally with Docker, you may need to fill in the Client API URL
 
 **Processing seems stuck**
 
-- The plugin falls back to polling if SSE disconnects. Check the browser console for connection errors
-- Large documents (20+ pages) can take 5–8 minutes — this is normal
+- If the live progress stream drops, the plugin falls back to checking progress every few seconds — give it 30 seconds
+- Large documents (20+ pages) can take 5–8 minutes; this is normal
 
 **Figures not displaying**
 
-- Figures are sideloaded as WordPress attachments. Check that `wp-content/uploads/` is writable
-- Verify the original PDF attachment still exists (figures are attached as children)
+- Figures are added to the Media Library as attachments. Make sure `wp-content/uploads/` is writable by the web server
+- Check the original PDF attachment still exists — the figures are stored as children of it
 
 **Viewer returns 404**
 
-- Flush rewrite rules: **Settings > Permalinks > Save Changes** (no changes needed, just save)
-- Verify the attachment status is "Ready" and "Enabled" in the Media Library panel
+- Go to **Settings > Permalinks > Save Changes** (no changes needed, just save — this refreshes WordPress's URL rules)
+- Check the attachment is marked as "Ready" and "Enabled" in the Media Library panel
 
-**Job completes in seconds with no AI improvements visible**
+**Job finishes in seconds with no AI improvements visible**
 
-- The Reflow API's credentials (Bedrock or Anthropic) likely expired on the server side. Operators of the Reflow instance should refresh and restart — see the [Reflow first-PDF tutorial troubleshooting section](https://github.com/EqualifyEverything/equalify-reflow/blob/main/docs/tutorials/convert-your-first-pdf.md#troubleshooting) for details.
+- The Reflow service's AI credentials most likely expired. The person who runs your Reflow instance needs to refresh them and restart the service.

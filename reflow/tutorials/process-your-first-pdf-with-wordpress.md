@@ -21,23 +21,26 @@ If you don't yet have partner access, see [getting started § partners](../getti
 
 ## 1. Install the plugin
 
-Download the latest release from the [equalify-reflow-wp releases page](https://github.com/EqualifyEverything/equalify-reflow-wp/releases) and extract it into your WordPress plugins directory:
+Download the latest release ZIP from the [equalify-reflow-wp releases page](https://github.com/EqualifyEverything/equalify-reflow-wp/releases). Keep the ZIP as-is — you don't need to unzip it.
 
-```bash
-unzip equalify-reflow-wp-*.zip -d wp-content/plugins/
-```
+In the WordPress admin:
 
-In the WordPress admin, go to **Plugins > Installed Plugins** and activate **Equalify Reflow**. On a multisite, use **Network Activate** instead so individual sites can configure their own API targets.
+1. Go to **Plugins > Add New**.
+2. Click **Upload Plugin** at the top of the page.
+3. Choose the ZIP you just downloaded and click **Install Now**.
+4. When the upload finishes, click **Activate Plugin**. On a multisite, choose **Network Activate** so individual sites can point at their own Reflow instance later.
+
+> **Power users:** if you prefer the command line, you can also install via WP-CLI (`wp plugin install <path-to-zip> --activate`) or by uploading the ZIP's contents to `wp-content/plugins/` over SFTP. The admin UI path above is the one we document and support for everyone else.
 
 ## 2. Configure the API connection
 
 Navigate to **Settings > Equalify Reflow** and fill in:
 
-- **API URL** — the base URL of your Reflow instance, e.g. `https://reflow.equalify.uic.edu`
-- **API Key** — the `X-API-Key` you were provided
-- **Client API URL** — leave blank unless your server-side and browser-side addresses differ (common only in local Docker setups)
+- **API URL** — the address of the Reflow service the plugin should talk to. For the UIC-hosted instance, paste `https://reflow.equalify.uic.edu`. You'll only change this later if you move to a different Reflow instance.
+- **API Key** — the access credential you were issued during partner onboarding. Treat it like a password.
+- **Client API URL** — leave blank. It's only needed if the WordPress server and the visitor's browser need to reach the Reflow service at different addresses, which usually only happens in local Docker development.
 
-Save. The plugin does a quick connectivity check; if the green "Connected" indicator doesn't appear, see [Troubleshooting](#troubleshooting) below.
+Save. The plugin runs a quick connectivity check; if the green "Connected" indicator doesn't appear, see [Troubleshooting](#troubleshooting) below.
 
 ## 3. Upload or find a PDF
 
@@ -49,15 +52,15 @@ Scroll to the **Equalify Reflow** section. If the plugin is configured correctly
 
 Click **Run Equalify Reflow**.
 
-The plugin submits the PDF to the Reflow API and shows a progress bar for the five public phases:
+The plugin sends the PDF to the Reflow service and shows a progress bar as it moves through the five stages of the conversion:
 
-1. **Extraction** — Docling parses the PDF structure
-2. **Analysis** — document classification and outline
-3. **Headings** — heading hierarchy normalisation
-4. **Translation** — per-page content and formatting fixes
-5. **Assembly** — cross-page boundary fixes and cleanup
+1. **Extraction** — pulling the text, tables, and images out of the PDF
+2. **Analysis** — working out what kind of document this is and building its outline
+3. **Headings** — sorting out the heading levels so the outline is consistent
+4. **Translation** — going through page by page and correcting the text and layout
+5. **Assembly** — stitching the pages together and cleaning up the seams
 
-Expected duration for a 6–10 page document: **~2–5 minutes**. Larger documents or ones with complex layouts scale roughly linearly. If the SSE connection drops, the plugin falls back to polling every 5 seconds; you'll see progress continue.
+Expected duration for a 6–10 page document: **~2–5 minutes**. Larger or more complex documents take proportionally longer. If the live progress connection drops, the plugin falls back to checking progress every few seconds; you'll see the bar keep moving.
 
 ## 5. See the accessible viewer
 
@@ -68,19 +71,19 @@ When processing completes, the attachment panel shows:
 
 Open the viewer link. You should see:
 
-- The document rendered as accessible HTML
-- A **table of contents** down the side, generated from the document's headings
+- The document rendered as an accessible web page
+- A **table of contents** down the side, built automatically from the document's headings
 - A **search** box that highlights matches across the document
-- Download links for the original PDF and the accessible markdown
+- Download links for the original PDF and the accessible text version
 
-Click through the table of contents to confirm the heading hierarchy matches what you'd expect for this document. This is the single most important quality check — see [interpret the output](../how-to/interpret-the-output.md) for the full 4-minute quality scan.
+Click through the table of contents and check that the outline matches what you'd expect for this document. This is the single most important quality check — see [interpret the output](../how-to/interpret-the-output.md) for the full 4-minute review.
 
 ## 6. Check the media library updated
 
 Back in **Media > Library**, notice:
 
-- The extracted figures from the PDF are now separate Media Library entries (they're "attached" to the original PDF)
-- Each figure has alt text generated by the pipeline's image subagent
+- The figures from the PDF are now separate Media Library entries, attached to the original PDF
+- Each figure has alt text written by the pipeline's image-description specialist
 
 ## 7. Explore what else the plugin does
 
@@ -88,30 +91,30 @@ Now that the document is processed, the plugin has automatically activated a few
 
 - **PDF link annotation** — anywhere you link to this PDF in a post or page, an accessibility icon appears next to the link. Clicking it opens the accessible viewer instead of downloading the PDF.
 - **Document index** — `/equalify-reflow/` lists every processed and enabled document on the site.
-- **Download bundle** — append `/download/` to the viewer URL to get a ZIP of the markdown plus figures.
+- **Download bundle** — append `/download/` to the viewer URL to get a ZIP containing the accessible text and figures.
 
 ## 8. Enable feedback (optional)
 
 In **Settings > Equalify Reflow**, turn on **Enable Feedback** and point it at a feedback service (e.g. `https://feedback.equalify.example/api`). Readers of the accessible viewer can now:
 
-- Report issues with category tagging (content, formatting, accessibility, structure)
-- Propose specific text corrections (select text → suggest edit)
+- Report issues and tag them with a category (content, formatting, accessibility, structure)
+- Highlight specific text and propose a correction (select text → suggest edit)
 
-Feedback flows to the centralised [Equalify Reflow Feedback Service](https://github.com/EqualifyEverything/equalify-reflow-feedback), which aggregates reports across every connected WordPress site and informs pipeline improvements.
+Reports are reviewed by the Equalify team and feed directly into pipeline improvements.
 
 ## Troubleshooting
 
 | Problem | First thing to try |
 |---|---|
-| "Connection failed" when saving settings | Confirm the API URL is reachable from the WordPress server (not just your browser) — try `curl $API_URL/health` from SSH (the health endpoint is public; no API key needed). |
-| Progress bar stuck at 0% | Browser console may show SSE errors. The plugin falls back to polling; give it 30 seconds. |
-| Processing completes but figures don't appear | Check `wp-content/uploads/` is writable by the web server. |
-| Viewer URL returns 404 | Go to **Settings > Permalinks > Save Changes** (no changes needed, just save — this flushes rewrite rules). |
-| Processing completes suspiciously fast with poor-quality output | The Reflow instance's AWS Bedrock or Anthropic credentials likely expired on the server side. Ask the instance operator to refresh credentials and restart. |
+| "Connection failed" when saving settings | Confirm the API URL is reachable from the WordPress server itself, not just from your laptop. If you have command-line access to the server, `curl $API_URL/health` is a quick check (no API key needed). Otherwise ask whoever maintains the server. |
+| Progress bar stuck at 0% | The live progress stream may have dropped. The plugin falls back to checking progress every few seconds; give it 30 seconds. |
+| Processing completes but figures don't appear | Make sure `wp-content/uploads/` is writable by the web server. |
+| Viewer URL returns 404 | Go to **Settings > Permalinks > Save Changes** (no changes needed, just save — this refreshes WordPress's URL rules). |
+| Processing finishes in seconds with poor-quality output | The Reflow service's AI credentials most likely expired. Ask whoever runs your Reflow instance to refresh them and restart the service. |
 
 ## Where to go next
 
 - [Use the WordPress plugin](../how-to/use-the-wordpress-plugin.md) — day-to-day reference (managing documents, re-processing, multisite setup)
 - [Interpret the output](../how-to/interpret-the-output.md) — the reviewer's quality checklist
 - [Provide feedback](../how-to/provide-feedback.md) — how to submit corrections and issue reports
-- [How it works](../explanation/how-it-works.md) — what the pipeline is actually doing during those five phases
+- [How it works](../explanation/how-it-works.md) — what's actually happening during those five stages

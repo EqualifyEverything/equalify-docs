@@ -8,12 +8,15 @@ Equalify Reflow turns PDF documents into accessible markdown. These docs are gro
 
 Guided, hands-on walkthroughs. Follow these when you're new and want to learn by doing.
 
+- [Use the pipeline viewer](tutorials/use-the-pipeline-viewer.md) — the fastest path: drop a PDF in the browser, watch every phase run live, inspect the output. No WordPress, no code.
+- [Process your first PDF with the web app](tutorials/process-your-first-pdf-with-the-web-app.md) — a guided end-to-end walkthrough of the hosted web app, including the PII review gate and downloading the accessible output
 - [Process your first PDF with WordPress](tutorials/process-your-first-pdf-with-wordpress.md) — install the plugin, connect it to a Reflow instance, and convert a real document end-to-end
 
 ## How-to guides
 
 Recipes for specific tasks. Use these when you know what you want to accomplish.
 
+- [Use the web app](how-to/use-the-web-app.md) — day-to-day reference for the hosted web app: uploading, the pipeline viewer, the PII review phase, downloads, feedback, troubleshooting
 - [Use the WordPress plugin](how-to/use-the-wordpress-plugin.md) — day-to-day tasks: processing, managing, re-processing, multisite, troubleshooting
 - [Integrate via the API](how-to/integrate-via-api.md) — copy-pasteable recipes for submit, stream, PII approval, ledger, figures
 - [Interpret the output](how-to/interpret-the-output.md) — a reviewer's 4-minute quality scan for a converted document

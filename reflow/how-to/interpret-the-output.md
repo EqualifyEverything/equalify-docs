@@ -7,9 +7,25 @@ description: A reviewer's checklist for a converted document — what to look at
 
 # Interpret the output
 
-You've got a converted document back from Reflow. Before you ship it, walk through this checklist to confirm the pipeline got the important things right.
+You've got a converted document back from Reflow. Before you publish it, take a few minutes to check the pipeline got the important things right.
+
+The converted document is viewable from either surface: the [web app](use-the-web-app.md) at `reflow.equalify.uic.edu` and the [WordPress plugin](use-the-wordpress-plugin.md). The questions below apply equally to both.
 
 For the list of what the output contains and which document types convert well, see [supported document types](../reference/supported-document-types.md).
+
+## What a good conversion looks like
+
+Imagine you've just opened the accessible viewer for a ten-page syllabus. Here's what you'd see if the conversion went well:
+
+- The course title sits at the top of the page as the clear main heading — not as a line of bold text that merely *looks* like a title. Below it, section names like "Course description", "Schedule", "Grading", and "Policies" form a tidy outline that you can jump between from the table of contents on the side.
+- The weekly schedule that was a bulleted list in the PDF is still a bulleted list in the viewer — not a run of paragraphs where each line starts with a dash character.
+- A table of assignment weights keeps its rows and columns, with the top row clearly marked as headers. Reading across a row, each percentage sits under the right column.
+- The instructor's photo has a short, factual description next to it (something like "Portrait of Professor Ramirez") — a real alt text, not "image" or a filename. A purely decorative border graphic has no description at all, which is correct: a screen reader will skip past it rather than interrupting the reader.
+- Links to the course policy page are real, clickable links. Italics on a Latin term or bold on a defined word are preserved where they carry meaning.
+
+A **poor** conversion, by contrast, looks flat: big runs of paragraph text with no outline, lists collapsed into prose, tables whose rows no longer line up with their headers, images labelled "image1.png" or missing descriptions entirely, and sections that end mid-sentence because a page break wasn't stitched back together.
+
+Keep that picture in mind as you work through the questions below.
 
 ## The 4-minute quality scan
 
@@ -17,57 +33,58 @@ Most problems surface in the first few minutes of review. Work the list in this 
 
 ### 1. Structure (30 seconds)
 
-Read the heading outline — most markdown viewers show it as a table of contents, or you can scan the `#`, `##`, `###` lines in the raw markdown.
+Look at the table of contents on the side of the viewer (it's built from the document's headings).
 
-- **Does the H1 match the document title?** There should be exactly one H1, and it should be the document's actual title — not a section header.
-- **Do section H2s match what you'd expect?** Anything that looks like "Introduction", "Methods", "Conclusion" (or the equivalent for your document type) should be H2.
-- **Are sub-sections nested sensibly?** No level-skipping (H2 → H4 without an H3 in between).
+- **Does the outline read like a natural summary of the document?** If you read only the headings, do they make sense as a table of contents for this document?
+- **Is there exactly one main title at the top, and is it the document's real title** — not a section name?
+- **Do the top-level section names match what you'd expect?** For a syllabus you'd expect "Course description", "Schedule", and so on — not the first sentence of the introduction.
+- **Do sub-sections nest sensibly under their parents**, without any surprising jumps in level?
 
-If the structure is wrong, everything downstream is built on a bad skeleton. File a correction.
+If the outline is wrong, everything below it is built on a shaky skeleton. File a correction.
 
 ### 2. Content accuracy (1–2 minutes)
 
-Sample the text. You don't need to read every word; spot-check:
+Spot-check the text rather than reading every word.
 
-- **First paragraph of each major section** — OCR errors tend to cluster at page boundaries and unusual layouts.
-- **Numbers, dates, proper nouns** — these are the highest-stakes words in most documents. A date off by a day or a misspelled name is worse than a paragraph of awkward phrasing.
-- **Footnotes and citations** — check that numbering matches and footnotes appear in the right places.
+- **Read the first paragraph of each major section.** Does it make sense? Text errors tend to cluster at page boundaries and unusual layouts.
+- **Check the numbers, dates, and proper nouns.** These are the highest-stakes words in most documents — a date off by a day or a misspelled name matters more than a paragraph of awkward phrasing.
+- **Look at any footnotes or citations.** Do the numbers line up, and do the footnotes appear near where they're referenced?
 
 ### 3. Tables (30 seconds per table)
 
-For every table:
+For every table in the document:
 
-- **Header row identified?** The top row should be formatted differently (in markdown tables, the `|---|---|` row signals headers).
-- **Cells aligned with the right headers?** Read one data row and confirm each value matches its column header.
-- **For complex tables** (merged cells, multi-level headers) — verify manually. The table subagent does its best, but complex layouts can confuse it.
+- **Is the top row clearly marked as headers** — either visually bold or set apart from the data rows?
+- **Pick one data row and read across it.** Does each cell sit under the correct column header?
+- **If the table has merged cells or multi-level headers**, check it manually — complex table layouts are where automated conversion is most likely to stumble.
 
 ### 4. Images (1 minute for most documents)
 
-Open the image list from the response (the `figures` array) and scan the generated alt text:
+Go through the images in the viewer (or open the accompanying figure list).
 
-- **Is the alt text accurate?** It should describe what the image conveys — not just "an image" or "figure 3".
-- **Does it match the caption?** If the original caption said "Figure 2: Enrollment trends 2020–2024", the alt text should describe those trends, not restate the caption.
-- **Are decorative images appropriately blank?** Logos, borders, and spacers should have empty alt text.
+- **Does the alt text actually describe what the image conveys?** "Bar chart showing enrolment doubled between 2020 and 2024" is useful. "An image" or "figure 3" is not.
+- **Does the alt text add to the caption, rather than just repeating it?** If the caption already says "Figure 2: Enrolment trends 2020–2024", the alt text should describe what those trends look like.
+- **Are decorative images (logos, borders, spacers) appropriately left without alt text** so screen readers skip past them?
 
 ### 5. Links and emphasis (30 seconds)
 
-- **Hyperlinks are clickable** (not just plain text URLs).
-- **Bold/italic** is preserved where it carries meaning (defined terms, emphasis in the source).
-- **Code blocks** are formatted as code blocks, not inline text.
+- **Are hyperlinks clickable**, rather than showing as plain text URLs?
+- **Is bold or italic formatting kept** where it carries meaning — defined terms, emphasis the author used deliberately?
+- **If the document contained code examples**, are they set apart from the body text rather than flowing inline?
 
-## Warnings on the job response
+## Warnings from the pipeline
 
-The API response includes a `warnings` array. Treat any warning there as a starting point for review — the pipeline is telling you where it noticed something unusual (scanned pages, failed table reconstructions, confidence below threshold on specific pages).
+The viewer (or the API response, if you're integrating directly) includes a list of warnings the pipeline produced — places where it noticed something unusual such as a scanned page, a table it wasn't confident about, or an image it couldn't classify. Treat each warning as a starting point for review; it's the pipeline telling you where to look first.
 
 ## When to ask for a correction
 
 Not every issue needs a pipeline change. A rough decision tree:
 
-- **One-off, content-specific issues** (a specific heading got the wrong level, alt text on one image is weak): file a correction via the feedback mechanism. This goes into the aggregated feedback service and helps train future prompt improvements; it doesn't need to go back through the pipeline today.
-- **Systematic issues affecting many documents** (every syllabus of a certain format has the same heading mistake): worth filing a formal issue against the pipeline — the fix is usually a prompt tweak, which is easier to validate once and ship broadly.
-- **Missing content** (a whole paragraph is gone): rerun the document. This is rare and usually indicates a transient failure rather than a pipeline quality issue.
+- **One-off issues specific to this document** (a single heading got the wrong level, alt text on one image is weak): submit feedback from the viewer. It feeds into the central feedback service and helps improve future conversions; the document you're looking at today doesn't need to be re-run for this.
+- **Systematic issues affecting many documents** (every syllabus in this format has the same heading mistake): worth filing a formal issue against the pipeline — the fix is usually a tweak to the AI's instructions, which can be validated once and rolled out to everyone.
+- **Missing content** (a whole paragraph or page is gone): re-run the document. This is rare and usually points to a transient glitch rather than a quality problem.
 
-See [provide feedback](provide-feedback.md) for how to submit a correction through the WordPress plugin.
+See [provide feedback](provide-feedback.md) for how to submit a correction from the viewer.
 
 ## If the quality is consistently bad for your document type
 
