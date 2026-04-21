@@ -21,6 +21,10 @@ Organisations running their own instance reach the web app at the root of their 
 
 ## Upload a document
 
+![Equalify Reflow landing page. The header reads "Equalify Reflow" beside a Beta badge. A row of inactive pipeline stage tabs — PII Review, Extraction, Analysis, Headings, Translation, Assembly — sits below the header. In the centre of the page, a dashed drop zone contains an upload icon and the text "Drop a PDF here or click to upload" with the subtitle "See every processing step in the pipeline above".](https://raw.githubusercontent.com/EqualifyEverything/equalify-docs/main/reflow/assets/reflow-empty.png)
+
+*The landing page. Pipeline stages sit above the drop zone — they'll light up in order once a PDF is uploaded.*
+
 From the upload screen you can:
 
 - **Drag and drop** a PDF onto the dashed drop zone.
@@ -36,19 +40,11 @@ Both limits are defaults; if your instance has been tuned differently, the serve
 
 ## The working layout
 
-Once processing begins, the web app opens into a four-area layout:
+Once processing begins, the web app opens into a four-area layout — a row of pipeline stage tabs across the top, a stats bar with run metrics and action buttons, a side-by-side page image and rendered markdown in the middle, and a changes or metadata panel on the right.
 
-```
-+-----------------------------------------------------------------+
-|  Header: Equalify Reflow | Extraction | Analysis | Headings ... |
-+-----------------------------------------------------------------+
-|  Stats bar: pages | chars/page | figures | time | cost | [Feedback] [Auto-advance] [New PDF] |
-+------+------------------------+---------------+-----------------+
-| Page |  Page image            |  Rendered     |  Changes /      |
-| list |  (left panel)          |  markdown     |  Metadata       |
-|      |                        |  (right)      |  sidebar        |
-+------+------------------------+---------------+-----------------+
-```
+![Completed Equalify Reflow run. All five pipeline stage tabs across the top show green checkmarks. A stats bar lists run metrics — page count, average characters per page, figure count, total time, cost — alongside Feedback, Auto-advance, and New PDF buttons. Below, three panels: page thumbnails on the far left, the original PDF page image in the centre-left, and the converted accessible HTML in the centre-right. A Changes panel on the far right summarises how many edits the AI made in the current stage.](https://raw.githubusercontent.com/EqualifyEverything/equalify-docs/main/reflow/assets/reflow-complete.png)
+
+*A completed run showing the working layout with stage tabs, stats bar, split page-and-markdown view, and changes panel.*
 
 ### Stage tabs
 

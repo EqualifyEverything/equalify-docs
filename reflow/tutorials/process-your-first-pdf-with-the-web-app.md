@@ -21,6 +21,8 @@ The web app is the right path when you don't run WordPress but still want to con
 
 Point your browser at `https://reflow.equalify.uic.edu/`. You'll land directly on the upload screen — no login, nothing to configure. At the top you'll see the Equalify Reflow header with a Beta badge. Below it, a row of pipeline phase tabs (greyed out until a document is loaded) and a dashed drop zone in the middle of the page that says **Drop a PDF here or click to upload**.
 
+![Equalify Reflow landing page. The header reads "Equalify Reflow" beside a Beta badge. A row of inactive pipeline stage tabs — PII Review, Extraction, Analysis, Headings, Translation, Assembly — sits below the header. In the centre of the page, a dashed drop zone contains an upload icon and the text "Drop a PDF here or click to upload" with the subtitle "See every processing step in the pipeline above".](https://raw.githubusercontent.com/EqualifyEverything/equalify-docs/main/reflow/assets/reflow-empty.png)
+
 ## 2. Upload a PDF
 
 Three ways to start:
@@ -67,6 +69,8 @@ Once the pipeline finishes, the web app opens into its working layout:
 - A **page image panel** in the centre-left showing the original PDF page.
 - A **rendered markdown panel** in the centre-right showing the converted, accessible version of the current page.
 - A **changes panel** on the far right showing how many edits the AI made in the currently selected phase and a **View Details** button that opens every change with its before, after, and the AI's reasoning.
+
+![Completed Equalify Reflow run. All five pipeline stage tabs across the top show green checkmarks. A stats bar lists run metrics — page count, average characters per page, figure count, total time, cost — alongside Feedback, Auto-advance, and New PDF buttons. Below, three panels: page thumbnails on the far left, the original PDF page image in the centre-left, and the converted accessible HTML in the centre-right. A Changes panel on the far right summarises how many edits the AI made in the current stage.](https://raw.githubusercontent.com/EqualifyEverything/equalify-docs/main/reflow/assets/reflow-complete.png)
 
 Click through each phase tab to see what that step produced. The Analysis tab is special — it replaces the changes panel with a **structure metadata** panel showing the document outline, page attributes, footnotes, and detected code blocks. This is the context every downstream phase uses to make decisions.
 
