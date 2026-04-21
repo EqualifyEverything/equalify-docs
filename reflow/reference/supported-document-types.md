@@ -7,7 +7,7 @@ description: What Reflow produces, which document types convert well, and which 
 
 # Supported document types
 
-Equalify Reflow is designed for **course materials** — syllabi, academic papers, policy documents, and presentations. This page is a quick lookup for what's in scope, what the pipeline produces, and where quality drops off. For the judgement side — how to evaluate a specific conversion — see [interpret the output](../how-to/interpret-the-output.md).
+Equalify Reflow is designed for **course materials** — syllabi, academic papers, policy documents, and presentations. This page is a quick lookup for what's in scope, what the pipeline produces, and where quality drops off. For the judgement side — how to evaluate a specific conversion — see [interpret the output](../how-to/interpret-the-output).
 
 ## Size limits
 

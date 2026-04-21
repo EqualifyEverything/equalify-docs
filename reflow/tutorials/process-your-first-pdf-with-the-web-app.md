@@ -9,12 +9,12 @@ description: Open the Equalify Reflow web app in your browser, upload a PDF, app
 
 By the end of this walkthrough you will have opened the Equalify Reflow web app at `https://reflow.equalify.uic.edu/`, converted a real PDF into an accessible document, approved (or cancelled) the PII review gate, and downloaded the accessible markdown. Plan for **~20 minutes**, including reading time for the output.
 
-The web app is the right path when you don't run WordPress but still want to convert documents through a browser interface. For day-to-day reference on the web app's controls, see [use the web app](../how-to/use-the-web-app.md). This tutorial walks you through the path end-to-end; that page is the task reference after you're set up.
+The web app is the right path when you don't run WordPress but still want to convert documents through a browser interface. For day-to-day reference on the web app's controls, see [use the web app](../how-to/use-the-web-app). This tutorial walks you through the path end-to-end; that page is the task reference after you're set up.
 
 ## What you need
 
 - **A modern browser.** Current Chrome, Firefox, Edge, or Safari. The viewer uses standard web APIs; nothing needs to be installed.
-- **The web app URL.** The UIC-hosted instance is at `https://reflow.equalify.uic.edu/`. There's no sign-in and no API key — open the URL and you're there. The service is protected by per-IP rate limits (see [use the web app § limits](../how-to/use-the-web-app.md#limits)) rather than authentication.
+- **The web app URL.** The UIC-hosted instance is at `https://reflow.equalify.uic.edu/`. There's no sign-in and no API key — open the URL and you're there. The service is protected by per-IP rate limits (see [use the web app § limits](../how-to/use-the-web-app#limits)) rather than authentication.
 - **A PDF.** Up to **100 MB** and **50 pages**. Course materials, slide decks, handouts, and articles are the intended scope. Scanned PDFs work — OCR runs automatically.
 
 ## 1. Open the web app
@@ -78,7 +78,7 @@ If anything about the document prompted a warning (scanned pages, unusual layout
 
 ## 6. Do a quick accessibility review
 
-The single most valuable quality check is the **heading outline**. On the Analysis tab, scan the outline list: does the H1 match the document title, and are H2s the things you'd expect to be top-level sections? If the skeleton looks right, the rest of the output is usually solid. For the full reviewer checklist, see [interpret the output](../how-to/interpret-the-output.md).
+The single most valuable quality check is the **heading outline**. On the Analysis tab, scan the outline list: does the H1 match the document title, and are H2s the things you'd expect to be top-level sections? If the skeleton looks right, the rest of the output is usually solid. For the full reviewer checklist, see [interpret the output](../how-to/interpret-the-output).
 
 ## 7. Download the accessible output
 
@@ -94,7 +94,7 @@ For the final accessible output, select the **Assembly** tab and use its downloa
 
 When the pipeline completes and feedback is enabled on the instance, a **Feedback** button appears in the stats bar. Use it to report anything that looked wrong — incorrect text, broken tables, missing alt text, or a heading at the wrong level.
 
-Reports are reviewed by the Equalify team and directly inform pipeline improvements. See [provide feedback](../how-to/provide-feedback.md) for the details on each category.
+Reports are reviewed by the Equalify team and directly inform pipeline improvements. See [provide feedback](../how-to/provide-feedback) for the details on each category.
 
 ## Troubleshooting
 
@@ -108,7 +108,7 @@ Reports are reviewed by the Equalify team and directly inform pipeline improveme
 
 ## Where to go next
 
-- [Use the web app](../how-to/use-the-web-app.md) — day-to-day reference for the web app's controls, phases, and feedback flow
-- [Interpret the output](../how-to/interpret-the-output.md) — the reviewer's 4-minute quality scan for a converted document
-- [Provide feedback](../how-to/provide-feedback.md) — how to submit corrections and issue reports from the web app
-- [How it works](../explanation/how-it-works.md) — what the pipeline is actually doing during those five phases
+- [Use the web app](../how-to/use-the-web-app) — day-to-day reference for the web app's controls, phases, and feedback flow
+- [Interpret the output](../how-to/interpret-the-output) — the reviewer's 4-minute quality scan for a converted document
+- [Provide feedback](../how-to/provide-feedback) — how to submit corrections and issue reports from the web app
+- [How it works](../explanation/how-it-works) — what the pipeline is actually doing during those five phases

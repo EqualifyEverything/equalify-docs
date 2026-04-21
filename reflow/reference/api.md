@@ -14,7 +14,7 @@ All endpoints are prefixed with `/api/v1/`.
 - **Public instance:** [https://reflow.equalify.uic.edu/docs](https://reflow.equalify.uic.edu/docs)
 - **Your own instance:** `http://<your-host>:8080/docs` (public — no auth required)
 
-This page summarises the endpoints an API integrator is most likely to use. For recipe-style walkthroughs, see [how to integrate via the API](../how-to/integrate-via-api.md).
+This page summarises the endpoints an API integrator is most likely to use. For recipe-style walkthroughs, see [how to integrate via the API](../how-to/integrate-via-api).
 
 ## Authentication
 

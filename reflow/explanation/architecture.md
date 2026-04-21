@@ -29,7 +29,7 @@ The core service. A FastAPI application that accepts PDF uploads, runs the five-
 
 ### WordPress plugin — `equalify-reflow-wp`
 
-Integrates Reflow into a WordPress Media Library workflow. Admins process PDFs; readers see an accessible viewer with a table of contents, full-text search, and downloads. See [use the WordPress plugin](../how-to/use-the-wordpress-plugin.md).
+Integrates Reflow into a WordPress Media Library workflow. Admins process PDFs; readers see an accessible viewer with a table of contents, full-text search, and downloads. See [use the WordPress plugin](../how-to/use-the-wordpress-plugin).
 
 ### Feedback loop
 

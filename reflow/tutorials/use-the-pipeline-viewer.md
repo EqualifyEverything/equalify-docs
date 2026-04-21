@@ -9,7 +9,7 @@ description: Convert a PDF in the browser using the Reflow pipeline viewer at re
 
 By the end of this walkthrough you'll convert a PDF using the built-in pipeline viewer in a browser — no WordPress, no API integration, no code. You'll watch the pipeline progress live, inspect each phase's output, look at the change ledger, and download the final accessible markdown. Plan for **~10 minutes**.
 
-The viewer is the fastest path for accessibility reviewers, partners previewing Reflow before a pilot, and anyone who wants to see what the pipeline actually does to a document. For the WordPress-admin flow, see [process your first PDF with WordPress](process-your-first-pdf-with-wordpress.md); for programmatic integration, see [integrate via the API](../how-to/integrate-via-api.md).
+The viewer is the fastest path for accessibility reviewers, partners previewing Reflow before a pilot, and anyone who wants to see what the pipeline actually does to a document. For the WordPress-admin flow, see [process your first PDF with WordPress](process-your-first-pdf-with-wordpress); for programmatic integration, see [integrate via the API](../how-to/integrate-via-api).
 
 ## What you need
 
@@ -137,7 +137,7 @@ If the PDF classifier detects something the pipeline handles less well — a sca
 ## Tips
 
 - **Scanned documents.** The viewer triggers OCR as a conditional step within Extraction. Expect the Extraction phase to take 1–2 minutes longer on scanned PDFs. Check the stats bar for the "Likely scanned" indicator.
-- **Reviewing accessibility.** Always check the Analysis stage's outline against your mental model of the document. If the outline looks wrong, the downstream Headings and Assembly stages are working from a bad map — flag it via [provide feedback](../how-to/provide-feedback.md).
+- **Reviewing accessibility.** Always check the Analysis stage's outline against your mental model of the document. If the outline looks wrong, the downstream Headings and Assembly stages are working from a bad map — flag it via [provide feedback](../how-to/provide-feedback).
 - **Cost awareness.** The stats bar's cost counter updates live. If the cost is climbing faster than you expected (over roughly $0.10 per page is a heads-up), the document probably triggered extra subagent calls — an image-heavy or table-heavy layout.
 - **Skip navigation keyboard.** ⌘/Ctrl+0 is the accessibility entry point. Screen reader users should start there.
 
@@ -146,14 +146,14 @@ If the PDF classifier detects something the pipeline handles less well — a sca
 The pipeline viewer is a one-shot interactive tool — it's not a document management system. Specifically:
 
 - No persistent library of past conversions (use the WordPress plugin or the API for that)
-- No collaboration or review assignments (feedback goes through the [feedback mechanism](../how-to/provide-feedback.md))
-- No batch processing (upload one PDF at a time; for bulk jobs, use [the API](../how-to/integrate-via-api.md))
+- No collaboration or review assignments (feedback goes through the [feedback mechanism](../how-to/provide-feedback))
+- No batch processing (upload one PDF at a time; for bulk jobs, use [the API](../how-to/integrate-via-api))
 
 For any of those, use the WordPress plugin or integrate against the API directly.
 
 ## Where to go next
 
-- [Interpret the output](../how-to/interpret-the-output.md) — the reviewer's 4-minute quality scan for a converted document
-- [Process your first PDF with WordPress](process-your-first-pdf-with-wordpress.md) — the WP-admin flow that builds on the same pipeline
-- [Provide feedback](../how-to/provide-feedback.md) — submit corrections and issue reports from the built-in viewer
-- [How it works](../explanation/how-it-works.md) — what the pipeline is actually doing during those five phases
+- [Interpret the output](../how-to/interpret-the-output) — the reviewer's 4-minute quality scan for a converted document
+- [Process your first PDF with WordPress](process-your-first-pdf-with-wordpress) — the WP-admin flow that builds on the same pipeline
+- [Provide feedback](../how-to/provide-feedback) — submit corrections and issue reports from the built-in viewer
+- [How it works](../explanation/how-it-works) — what the pipeline is actually doing during those five phases
