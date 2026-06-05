@@ -21,3 +21,5 @@ You can share audit reports with others, even if they don't have an Equalify acc
 ```important
 ⚠️ Important: Sharing a report allows others to view it. It does not permit them to edit the report. Only users with administrative credentials and proper access can edit audits.
 ```
+
+When someone opens a shared report link without an Equalify account, a banner appears at the top of the page reading **"You are viewing a shared accessibility report."** The banner also includes a **Log in** link for users who do have an account and want to switch to the full authenticated view.
