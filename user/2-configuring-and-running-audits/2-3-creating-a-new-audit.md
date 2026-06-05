@@ -54,7 +54,7 @@ The Site Crawl tab lets Equalify automatically discover pages on any website by 
 5. Review the discovered URLs in the table. You can deselect any pages you don't want included in the audit before saving.
 
 ```important
-⚠️Important: Site Crawl is a one-time snapshot. Unlike WordPress Integration, Equalify does not stay in sync with your site — new pages added or removed after the crawl will not be reflected in the audit automatically. To pick up changes, you will need to re-crawl and update your audit manually.
+⚠️Important: Site Crawl is a one-time snapshot. Unlike WordPress Integration, Equalify does not stay in sync with your site — new pages added or removed after the crawl will not be reflected in the audit automatically. To pick up changes, you will need to  update your audit manually.
 ```
 ```tip
 💡Tip: If the site has no sitemap, Equalify falls back to adding just the root URL you entered. For best results, ensure the site publishes a sitemap.xml.
