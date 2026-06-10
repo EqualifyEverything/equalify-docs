@@ -7,11 +7,11 @@ description: A system overview of Equalify Reflow — what it's made of, how dat
 
 # Architecture
 
-Equalify Reflow is three services working together: a conversion engine, a WordPress plugin, and a feedback service. This page is a system overview for people evaluating or integrating Reflow. For implementation detail — service classes, middleware order, Lua scripts, circuit-breaker thresholds — see [`docs/explanation/architecture.md` in the contributor repo](https://github.com/EqualifyEverything/equalify-reflow/blob/main/docs/explanation/architecture.md).
+Equalify Reflow is two services working together: a conversion engine and a feedback service, accessible via a hosted web app or directly through the API. This page is a system overview for people evaluating or integrating Reflow. For implementation detail — service classes, middleware order, Lua scripts, circuit-breaker thresholds — see [`docs/explanation/architecture.md` in the contributor repo](https://github.com/EqualifyEverything/equalify-reflow/blob/main/docs/explanation/architecture.md).
 
 ## System Components
 
-A WordPress site (or any API client — including the hosted web app) talks to the Reflow API, which exposes three endpoint groups: **Document**, **Pipeline Viewer**, and **Approval**. The API is a FastAPI + Uvicorn service backed by three pieces of infrastructure:
+Any API client — including the hosted web app — talks to the Reflow API, which exposes three endpoint groups: **Document**, **Pipeline Viewer**, and **Approval**. The API is a FastAPI + Uvicorn service backed by three pieces of infrastructure:
 
 - **Docling** — PDF extraction (layout analysis, table structure recognition, OCR)
 - **S3** — document storage (uploads, generated markdown, extracted figures)
@@ -26,10 +26,6 @@ The core service. A FastAPI application that accepts PDF uploads, runs the five-
 - Five-phase conversion pipeline with Claude-based agents
 - Change ledger recording every AI edit with reasoning
 - Job state and progress streaming via Redis
-
-### WordPress plugin — `equalify-reflow-wp`
-
-Integrates Reflow into a WordPress Media Library workflow. Admins process PDFs; readers see an accessible viewer with a table of contents, full-text search, and downloads. See [use the WordPress plugin](../how-to/use-the-wordpress-plugin).
 
 ### Feedback loop
 
@@ -56,7 +52,7 @@ The pipeline runs independently of any connected client — fault-tolerant by de
 4. Pipeline publishes progress events; the SSE endpoint relays them to subscribed clients
 5. If a client disconnects, the pipeline keeps running. The client can reconnect and replay missed events
 
-Both the built-in viewer and the WordPress plugin consume this same stream.
+The built-in viewer and any custom API client consume this same stream.
 
 ## Technology choices
 

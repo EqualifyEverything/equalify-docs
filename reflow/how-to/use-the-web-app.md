@@ -7,7 +7,7 @@ description: Upload, review, and download accessible documents through the Equal
 
 # Use the web app
 
-The Equalify Reflow web app lets anyone with access to a running instance convert a PDF into accessible markdown from a browser. No installation, no command line, no API integration. The web app walks each document through the same pipeline the WordPress plugin and API use, and surfaces every phase — including the PII review gate — in the UI.
+The Equalify Reflow web app lets anyone with access to a running instance convert a PDF into accessible markdown from a browser. No installation, no command line, no API integration. The web app walks each document through the same pipeline the API uses, and surfaces every phase — including the PII review gate — in the UI.
 
 For a narrative first-time walkthrough, see [process your first PDF with the web app](../tutorials/process-your-first-pdf-with-the-web-app). This page is the task reference for day-to-day use.
 
@@ -145,7 +145,7 @@ All interactive controls (tabs, page buttons, drop zone, panel buttons) respond 
 
 ## Managing jobs
 
-Each upload is a one-shot session in the UI. The web app doesn't offer a persistent library or job queue — the **New PDF** button in the stats bar resets to the upload screen, and the previous run isn't kept in the UI. If you need a library, the WordPress plugin manages processed documents as Media Library attachments; if you need programmatic access to past runs, see [integrate via the API](integrate-via-api).
+Each upload is a one-shot session in the UI. The web app doesn't offer a persistent library or job queue — the **New PDF** button in the stats bar resets to the upload screen, and the previous run isn't kept in the UI. If you need programmatic access to past runs, see [integrate via the API](integrate-via-api).
 
 ## Limits
 

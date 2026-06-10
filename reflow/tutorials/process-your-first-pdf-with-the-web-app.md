@@ -9,7 +9,7 @@ description: Open the Equalify Reflow web app in your browser, upload a PDF, app
 
 By the end of this walkthrough you will have opened the Equalify Reflow web app at `https://reflow.equalify.uic.edu/`, converted a real PDF into an accessible document, approved (or cancelled) the PII review gate, and downloaded the accessible markdown. Plan for **~20 minutes**, including reading time for the output.
 
-The web app is the right path when you don't run WordPress but still want to convert documents through a browser interface. For day-to-day reference on the web app's controls, see [use the web app](../how-to/use-the-web-app). This tutorial walks you through the path end-to-end; that page is the task reference after you're set up.
+The web app is the right path when you want to convert documents through a browser interface without writing code. For day-to-day reference on the web app's controls, see [use the web app](../how-to/use-the-web-app). This tutorial walks you through the path end-to-end; that page is the task reference after you're set up.
 
 ## What you need
 

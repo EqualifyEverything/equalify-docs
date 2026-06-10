@@ -101,7 +101,7 @@ async function submitAndStream(apiUrl, apiKey, pdfFile, onPhase, onComplete, onE
 }
 ```
 
-In browser integrations where you should **never** expose the API key to the client (the WordPress plugin works this way), proxy the submit + token-exchange through your own server, and only hand the browser the stream URL.
+In browser integrations where you should **never** expose the API key to the client, proxy the submit + token-exchange through your own server, and only hand the browser the stream URL.
 
 ## Handle a PII-flagged document
 
@@ -179,18 +179,6 @@ for (const fig of data.figures) {
 ```
 
 Pre-signed URLs are short-lived — download promptly after the job completes.
-
-## PHP submission from WordPress
-
-```php
-$response = wp_remote_post($api_url . '/api/v1/documents/submit', [
-    'headers' => ['X-API-Key' => $api_key],
-    'body'    => ['file' => new CURLFile($pdf_path, 'application/pdf')],
-]);
-$job_id = json_decode(wp_remote_retrieve_body($response))->job_id;
-```
-
-Keep the API key on the server side. Never inject it into page HTML or browser-executed JS — use the stream-token exchange pattern above instead.
 
 ## When to use the pipeline viewer endpoints instead
 

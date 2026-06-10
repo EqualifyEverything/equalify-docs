@@ -9,7 +9,7 @@ description: A reviewer's checklist for a converted document — what to look at
 
 You've got a converted document back from Reflow. Before you publish it, take a few minutes to check the pipeline got the important things right.
 
-The converted document is viewable from either surface: the [web app](use-the-web-app) at `reflow.equalify.uic.edu` and the [WordPress plugin](use-the-wordpress-plugin). The questions below apply equally to both.
+The converted document is viewable from the [web app](use-the-web-app) at `reflow.equalify.uic.edu`. The questions below apply to all converted output.
 
 For the list of what the output contains and which document types convert well, see [supported document types](../reference/supported-document-types).
 

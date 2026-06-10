@@ -106,7 +106,7 @@ Every edit the pipeline made, grouped by page — action, target, before/after t
 
 ## Streaming events
 
-For live progress, use Server-Sent Events. This is how the built-in viewer and the WordPress plugin show real-time progress.
+For live progress, use Server-Sent Events. This is how the built-in viewer shows real-time progress.
 
 ### Get a stream token
 
@@ -139,7 +139,7 @@ GET /api/v1/documents/{job_id}/stream?token={stream_token}
 | `processing:error` | `{error}` | Failed |
 | `done` | `{}` | Stream is closing |
 
-> **Use `user_phase` for progress UI.** Every `pipeline:phase` event carries a `user_phase` field — one of `extraction`, `analysis`, `headings`, `translation`, `assembly`, or `review`. That's the stable public contract, matching the five phases the viewer and WordPress plugin display. `display_name` (human-readable, e.g. "Heading Reconciliation") and `step_name` (internal identifier) are also provided for richer progress detail, but their values are not a stable contract — drive any UI state off `user_phase`.
+> **Use `user_phase` for progress UI.** Every `pipeline:phase` event carries a `user_phase` field — one of `extraction`, `analysis`, `headings`, `translation`, `assembly`, or `review`. That's the stable public contract, matching the five phases the viewer displays. `display_name` (human-readable, e.g. "Heading Reconciliation") and `step_name` (internal identifier) are also provided for richer progress detail, but their values are not a stable contract — drive any UI state off `user_phase`.
 
 ## PII approval
 

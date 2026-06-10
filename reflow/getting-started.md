@@ -11,37 +11,29 @@ Equalify Reflow turns PDFs into accessible web documents. This page helps you pi
 
 ## Choose how to use Reflow
 
-There are three ways to use Reflow. Pick the one that matches how you work — you can always start with one and add another later.
+There are two ways to use Reflow. Pick the one that matches how you work — you can always start with one and add another later.
 
 ### Web app — for one-off conversions in the browser
 
 The hosted web app at **[reflow.equalify.uic.edu](https://reflow.equalify.uic.edu)** is the quickest path. Open the URL, drag a PDF into the browser, and watch the conversion happen live. When it's done, read it in the built-in viewer and download the accessible markdown. No sign-in, no API key, no installation — the instance is open and protected by per-IP rate limits.
 
-Best for: individual users who need to convert a document now, accessibility reviewers evaluating Reflow's output, or anyone who doesn't run a WordPress site.
+Best for: individual users who need to convert a document now, accessibility reviewers evaluating Reflow's output, or anyone publishing one-off PDFs.
 
 Start here: [process your first PDF with the web app](tutorials/process-your-first-pdf-with-the-web-app) · [use the web app](how-to/use-the-web-app)
-
-### WordPress plugin — for publishing accessible PDFs on a WordPress site
-
-The Equalify Reflow plugin connects your WordPress site to a Reflow instance. Administrators process PDFs directly from the Media Library; visitors read them through an accessible viewer with a table of contents, full-text search, and a download link for the original PDF.
-
-Best for: organisations that already publish PDFs through a WordPress site and want those PDFs to have an accessible counterpart without changing their publishing workflow.
-
-Start here: [process your first PDF with WordPress](tutorials/process-your-first-pdf-with-wordpress) · [use the WordPress plugin](how-to/use-the-wordpress-plugin)
 
 ### API integration — for your own application or workflow
 
 Reflow has an HTTP API that accepts a PDF and returns the accessible version, with live progress updates along the way. If you have your own content system, a batch pipeline, or a custom viewer, you can build directly against it.
 
-Best for: developers integrating Reflow into a CMS other than WordPress, building automation around document intake, or embedding the output in a bespoke viewer.
+Best for: developers integrating Reflow into a CMS, building automation around document intake, or embedding the output in a bespoke viewer.
 
 Start here: [integrate via the API](how-to/integrate-via-api) · [API reference](reference/api)
 
 ## For partners
 
-The hosted web app is open to anyone. Becoming a partner is for organisations that want a dedicated API key (to integrate via the API or the WordPress plugin), early access to pipeline improvements, and a voice in what gets built next. Partners get:
+The hosted web app is open to anyone. Becoming a partner is for organisations that want a dedicated API key, early access to pipeline improvements, and a voice in what gets built next. Partners get:
 
-- **A dedicated API URL and key** for the WordPress plugin or a custom API integration
+- **A dedicated API URL and key** for custom API integration
 - **Early access** to new features and pipeline improvements
 - **Roadmap input** — influence what gets prioritised
 - **Direct support** during pilot deployments
