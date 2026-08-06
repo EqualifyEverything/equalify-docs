@@ -21,6 +21,7 @@ The main handler (`apps/backend/index.ts`) routes requests based on path prefixe
 Endpoints that don't require authentication:
 
 - **`POST /public/scanWebhook`** - Receives scan results from scanner Lambdas
+- **`POST /public/requestAccess`** - Submits a self-registration access request (name + email). On SSO instances, the email must belong to an authorized domain (`SSO_EMAIL_DOMAINS`); duplicate requests, existing invites, and existing accounts are rejected
 
 ### Auth Routes (`/auth`)
 Endpoints requiring a valid JWT token:
@@ -40,6 +41,8 @@ Endpoints requiring a valid JWT token:
 | `getAuditProgress` | GET | Get current scan progress |
 | `getLogs` | GET | Get activity logs |
 | `inviteUser` | POST | Invite a new user to the team |
+| `getAccessRequests` | POST | List pending self-registration access requests (admin only) |
+| `reviewAccessRequest` | POST | Approve or deny an access request; approval creates an invite and emails the requester (admin only) |
 | `trackUser` | POST | Track user analytics events |
 | `chatWithAudit` | POST | AI-powered audit chat interface |
 

@@ -15,9 +15,25 @@ Depending on how your organization manages Equalify you can sign in using Single
 #### Using SSO to Log In
 If your organization has set up SSO for Equalify, select "Sign in with SSO", and log in using your existing credentials.
 ```important
-⚠️Important: You must have previously received an invitation to join Equalify for SSO to work.
+⚠️Important: You must have an invitation (sent by an Admin or created when your access request is approved) for SSO sign-in to work. If you don't have one yet, see "Requesting access" below.
 ```
 <img src="https://github.com/EqualifyEverything/equalify-docs/blob/b724b4148ae2cc4c3f664114cffe3159130a881a/user/User%20Guide%20Images/Sec%201_Sign%20In.png" alt="Equalify sign-in page displaying the heading Sign in to Equalify, Sign in with SSO button, and a Create an account link for new users." width="400"/>
+
+#### Requesting access (self-registration)
+If your organization uses SSO and you haven't received an invite, you can request access yourself:
+1. On the sign-in page, select "Request access".
+1. Enter your name and your institutional email address (e.g., @uic.edu), then select "Request Access".
+    - A confirmation message will let you know your request was submitted.
+1. An Administrator will review your request. Once approved, you will receive an email from Equalify with a "Sign In" button.
+1. From the email, select "Sign In" and log in with SSO. Equalify automatically creates your account on first sign-in.
+
+```important
+⚠️Important: You must use an email address from your organization's authorized domain (e.g., @uic.edu). Requests from other email domains cannot be submitted.
+```
+
+```tip
+💡Tip: If you already have an account or a pending request for your email address, the form will let you know — there's no need to submit a second request.
+```
 
 #### Creating a new account without SSO
 If your organization does not have SSO set up for Equalify, you will be asked to create a password, which you will then use (along with your email) to log in.

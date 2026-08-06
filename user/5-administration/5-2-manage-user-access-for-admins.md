@@ -1,8 +1,24 @@
-This page is intended for **Administrators** responsible for managing system permissions and workspace security. This section covers the stages of user management: adding new users, changing permissions, and removing accounts.<br>
+This page is intended for **Administrators** responsible for managing system permissions and workspace security. This section covers the stages of user management: reviewing access requests, adding new users, changing permissions, and removing accounts.<br>
 
-For Administrators, it helps to think of the Invites and Users sections as two different stages:
+For Administrators, it helps to think of the Requests, Invites, and Users sections as three different stages:
+- **The Requests List:** People who have asked to join (via the "Request access" link on the sign-in page) and are waiting for your approval.
 - **The Invites List:** People who have been asked to join but haven't logged in yet.
 - **The Users List:** People who have already joined and are currently using Equalify.
+## Access Requests
+On instances that use Single Sign-On (SSO), people without an invite can request access themselves from the sign-in page. These self-registration requests appear in the Requests tab for Administrators to review.
+
+### Reviewing access requests
+1. Navigate to Account > Requests.
+    - Pending requests are listed with the requester's name, email, and the date they requested access.
+1. Click Approve or Deny for each request.
+    - **Approve:** An invite is automatically created for the requester's email address (it will also appear in the Invites tab), and the requester receives an approval email with a link to sign in. Once they log in via SSO, Equalify adds them to your workspace as a Member.
+    - **Deny:** The request is closed and the person is not granted access. No email is sent to the requester.
+    - A success banner will confirm either action, and the request is removed from the pending list.
+
+```important
+⚠️Important: Requests can only be submitted from your organization's authorized email domains (e.g., @uic.edu), and duplicates are prevented automatically — if an account, invite, or pending request already exists for an email address, a new request will not be created.
+```
+
 ## Invites
 ### Inviting users
 1. Navigate to Account > Invites.
