@@ -29,3 +29,20 @@ This section reflects scan activity over the rolling 30-day window.
 ```tip
 💡Tip: Average scan times are shown as "N/A" if no scans of that type completed in the last 30 days.
 ```
+
+## Monthly KPIs
+Below the snapshot cards, a table lists the last 5 calendar months (the current, partial month plus the four before it) so you can compare activity month over month.
+
+| Column | Description |
+|---|---|
+| Sessions | Authenticated app loads and logins recorded that month. |
+| Active Users | Distinct users who started at least one session that month. |
+| Units Served | Distinct campus units (departments) among users who started a session that month. Populated for SSO logins only, using the department on the user's directory record. |
+| Scan Runs | Audit-level scan runs created that month (one per scheduled or manual run). |
+| HTML Pages / PDF Pages | Individual page and document scans started that month, from CloudWatch. |
+| New Users | Accounts created that month. |
+| New Audits | Audits created that month. |
+
+```tip
+💡Tip: Sessions, Active Users, and Units Served are only recorded from the release that introduced session tracking onward, so earlier months show 0 for those columns.
+```

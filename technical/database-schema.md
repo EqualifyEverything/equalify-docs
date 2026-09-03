@@ -139,6 +139,18 @@ Activity audit trail.
 | `details` | JSONB | Action details |
 | `created_at` | TIMESTAMP | Action timestamp |
 
+### sessions
+One row per authenticated app load or login, written by `trackSession`. Backs the month-over-month KPIs on the admin Statistics tab (sessions started, active users, units served).
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | UUID | Primary key |
+| `user_id` | UUID | Authenticated user (matches `users.id`) |
+| `auth_method` | TEXT | `cognito` or `sso` |
+| `department` | TEXT | Campus unit from Microsoft Graph (SSO logins only; null otherwise) |
+| `analytics` | JSONB | Request analytics (location, device) plus any org fields sent at login |
+| `created_at` | TIMESTAMP | Session start |
+
 ## Relationships
 
 ```

@@ -44,6 +44,7 @@ Endpoints requiring a valid JWT token:
 | `getAccessRequests` | POST | List pending self-registration access requests (admin only) |
 | `reviewAccessRequest` | POST | Approve or deny an access request; approval creates an invite and emails the requester (admin only) |
 | `trackUser` | POST | Track user analytics events |
+| `trackSession` | POST | Record an authenticated app load or login (optionally with SSO org fields from Microsoft Graph) for monthly KPIs |
 | `chatWithAudit` | POST | AI-powered audit chat interface |
 
 ### Scheduled Routes (`/scheduled`)
